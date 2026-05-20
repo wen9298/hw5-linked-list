@@ -51,7 +51,6 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .ph h2{font-size:var(--base);font-weight:600;letter-spacing:-.01em}
 .ph-undo{margin-left:auto}
 .pb{padding:var(--s6)}
-/* viz */
 .viz{min-height:130px;display:flex;align-items:center;padding:var(--s4) var(--s6);overflow-x:auto;flex-wrap:nowrap;background:var(--bg);border-bottom:1px solid var(--border)}
 .vn{display:flex;flex-direction:column;align-items:center;gap:var(--s1);flex-shrink:0}
 .vb{display:flex;border:2px solid var(--border);border-radius:var(--r-md);overflow:hidden;font-family:var(--mono);font-size:var(--xs);font-weight:700;background:var(--surface2);transition:all .3s cubic-bezier(.16,1,.3,1)}
@@ -65,13 +64,11 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .arr{display:flex;align-items:center;margin-top:22px;color:var(--faint);font-size:18px;flex-shrink:0;padding:0 2px}
 .arr.circ{color:var(--primary);font-size:14px}
 .empty{color:var(--faint);font-style:italic;font-size:var(--sm);padding:var(--s4)}
-/* log */
 .log{font-family:var(--mono);font-size:var(--xs);background:var(--bg);border-top:1px solid var(--border);padding:var(--s4) var(--s6);max-height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
 .le{display:flex;gap:var(--s3);align-items:flex-start}
 .lt{color:var(--faint);flex-shrink:0;font-size:10px;padding-top:2px}
 .lm{color:var(--muted);line-height:1.5}
 .lm.ok{color:var(--ok)}.lm.err{color:var(--err)}.lm.info{color:var(--accent)}.lm.warn{color:var(--warn)}.lm.undo{color:var(--undo)}
-/* controls */
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:var(--s4);padding:var(--s6)}
 .cg{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
 .cgh{padding:var(--s3) var(--s4);background:var(--offset);border-bottom:1px solid var(--border);font-size:var(--xs);font-weight:600;color:var(--muted);display:flex;align-items:center;gap:var(--s2)}
@@ -94,7 +91,6 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .btn.undo{background:var(--undo-hl);color:var(--undo);border:1px solid var(--border);display:flex;align-items:center;gap:5px;font-size:var(--xs)}
 .btn.undo:hover{background:var(--dynamic);color:var(--text)}
 .btn.undo:disabled{opacity:.35;cursor:not-allowed;transform:none}
-/* stack */
 .stwrap{display:flex;gap:var(--s6);align-items:flex-start;padding:var(--s4) var(--s6);background:var(--bg);border-bottom:1px solid var(--border);min-height:130px}
 .stcol{display:flex;flex-direction:column;align-items:center;gap:var(--s2)}
 .stlbl{font-size:var(--xs);font-weight:600;color:var(--muted);margin-bottom:var(--s1)}
@@ -105,7 +101,6 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .snp{padding:4px 8px;font-size:10px;color:var(--muted)}
 .stempty{color:var(--faint);font-style:italic;font-size:var(--xs)}
 .stbot{font-size:10px;color:var(--faint);font-family:var(--mono);margin-top:4px}
-/* doubly */
 .dviz{min-height:110px;display:flex;flex-direction:column;padding:var(--s4) var(--s6);overflow-x:auto;background:var(--bg);border-bottom:1px solid var(--border);gap:var(--s3);justify-content:center}
 .drow{display:flex;align-items:center;flex-wrap:nowrap}
 .ddlbl{font-size:10px;color:var(--muted);font-family:var(--mono);width:60px;flex-shrink:0}
@@ -118,7 +113,6 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .dd{padding:4px 10px;min-width:36px;text-align:center;border-right:1px solid var(--border)}
 .dnx{padding:4px 6px;font-size:10px;color:var(--muted);display:flex;align-items:center}
 .darr{display:flex;align-items:center;color:var(--accent);font-size:16px;flex-shrink:0;padding:0 2px}
-/* queue */
 .qviz{min-height:110px;display:flex;align-items:center;padding:var(--s4) var(--s6);overflow-x:auto;background:var(--bg);border-bottom:1px solid var(--border);gap:0;flex-wrap:nowrap}
 .qnode{display:flex;flex-direction:column;align-items:center;gap:var(--s1);flex-shrink:0}
 .qb{display:flex;border:2px solid var(--border);border-radius:var(--r-md);overflow:hidden;font-family:var(--mono);font-size:var(--xs);font-weight:700;background:var(--surface2);transition:all .3s}
@@ -131,25 +125,11 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .qlbl{font-size:10px;font-family:var(--mono)}
 .qlbl.front{color:var(--teal)}.qlbl.rear{color:var(--purple)}.qlbl.hdr{color:var(--warn)}
 .qarr{display:flex;align-items:center;margin-top:22px;color:var(--faint);font-size:18px;flex-shrink:0;padding:0 2px}
-/* ref table */
-.rtbl{width:100%;border-collapse:collapse;font-size:var(--xs);font-family:var(--mono)}
-.rtbl th{padding:var(--s2) var(--s4);text-align:left;font-weight:600;color:var(--muted);border-bottom:2px solid var(--border);background:var(--offset)}
-.rtbl td{padding:var(--s2) var(--s4);border-bottom:1px solid color-mix(in oklch,var(--border) 50%,transparent);vertical-align:middle}
-.rtbl tr:last-child td{border-bottom:none}
-.rtbl tbody tr:hover td{background:var(--offset)}
-.tag{display:inline-flex;padding:2px 8px;border-radius:var(--r-sm);font-size:10px;font-weight:700;white-space:nowrap}
-.ts{background:var(--primary-hl);color:var(--primary)}
-.td{background:var(--accent-hl);color:var(--accent)}
-.tst{background:var(--warn-hl);color:var(--warn)}
-.tq{background:var(--teal-hl);color:var(--teal)}
-.ta{background:var(--purple-hl);color:var(--purple)}
-.badge{display:inline-flex;padding:2px 7px;border-radius:var(--r-full);font-size:10px;font-weight:700;background:var(--ok-hl);color:var(--ok)}
-.twocol{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
 @keyframes slide-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .fade{animation:slide-up .4s cubic-bezier(.16,1,.3,1) both}
 @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
 .pop{animation:pop .25s cubic-bezier(.16,1,.3,1) both}
-@media(max-width:900px){.twocol{grid-template-columns:1fr}.cgrid{grid-template-columns:1fr}main{padding:var(--s4)}header{padding:var(--s3) var(--s4)}.tabs{gap:var(--s1)}}
+@media(max-width:900px){.cgrid{grid-template-columns:1fr}main{padding:var(--s4)}header{padding:var(--s3) var(--s4)}.tabs{gap:var(--s1)}}
 </style>
 </head>
 <body>
@@ -171,12 +151,11 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
     <button class="tab" data-tab="stack">Linked stack</button>
     <button class="tab" data-tab="doubly">Doubly linked</button>
     <button class="tab" data-tab="queue">Linked queue</button>
-    <button class="tab" data-tab="ref">Reference</button>
   </div>
 </header>
 <main>
 
-<!-- ══════════════ SINGLY ══════════════ -->
+<!-- SINGLY -->
 <div class="page active fade" id="page-singly">
   <div class="panel">
     <div class="ph">
@@ -241,7 +220,7 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
   </div>
 </div>
 
-<!-- ══════════════ STACK ══════════════ -->
+<!-- STACK -->
 <div class="page fade" id="page-stack">
   <div class="panel">
     <div class="ph">
@@ -273,7 +252,7 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
   </div>
 </div>
 
-<!-- ══════════════ DOUBLY ══════════════ -->
+<!-- DOUBLY -->
 <div class="page fade" id="page-doubly">
   <div class="panel">
     <div class="ph">
@@ -325,7 +304,7 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
   </div>
 </div>
 
-<!-- ══════════════ QUEUE ══════════════ -->
+<!-- QUEUE -->
 <div class="page fade" id="page-queue">
   <div class="panel">
     <div class="ph">
@@ -367,55 +346,9 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
   </div>
 </div>
 
-<!-- ══════════════ REFERENCE ══════════════ -->
-<div class="page fade" id="page-ref">
-  <div class="panel">
-    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>All operations — quick reference</h2></div>
-    <div class="pb" style="padding:0;overflow-x:auto">
-      <table class="rtbl">
-        <thead><tr><th>#</th><th>Function name</th><th>Type</th><th>What it does</th><th>Time</th></tr></thead>
-        <tbody>
-          <tr><td>0</td><td><code>InitList()</code></td><td><span class="tag ts">Singly</span></td><td>Create the header node and initialise the circular list</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>1</td><td><code>PrintList()</code></td><td><span class="tag ts">Singly</span></td><td>Print every element in order (excluding the header)</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>2.1</td><td><code>InsertFirst(e)</code></td><td><span class="tag ts">Singly</span></td><td>Insert a new node right after the header (becomes first)</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>2.2</td><td><code>InsertLast(e)</code></td><td><span class="tag ts">Singly</span></td><td>Append a new node at the tail using the last pointer</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>3.1</td><td><code>FindTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>Search for a value and report whether it was found</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.2</td><td><code>FindInsertAfter(t, e)</code></td><td><span class="tag ts">Singly</span></td><td>Find a target value, then insert a new node directly after it</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.3</td><td><code>FindInsertBefore(t, e)</code></td><td><span class="tag ts">Singly</span></td><td>Find a target value, then insert a new node just before it</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.4</td><td><code>DeleteTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>Locate and remove a node; update the last pointer if needed</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>4</td><td><code>RandomInsert(n, lo, hi)</code></td><td><span class="tag ts">Singly</span></td><td>Append n nodes with random values in the range [lo, hi]</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>5</td><td><code>ClearList()</code></td><td><span class="tag ts">Singly</span></td><td>Free all nodes and reset the list (header node is kept)</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>C.1</td><td><code>InvertList()</code></td><td><span class="tag ta">Advanced</span></td><td>Reverse the singly circular list in-place using three pointers (r, s, t)</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>B</td><td><code>Push(e)</code></td><td><span class="tag tst">Stack</span></td><td>Push a new node onto the top of the stack</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>B</td><td><code>Pop()</code></td><td><span class="tag tst">Stack</span></td><td>Remove and free the top node, return its value</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>B</td><td><code>Peek()</code></td><td><span class="tag tst">Stack</span></td><td>Read the top value without removing it</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>C</td><td><code>InsertQ(e)</code></td><td><span class="tag tq">Queue</span></td><td>Append a new node at the rear (enqueue); update the rear pointer</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>C</td><td><code>DeleteQ()</code></td><td><span class="tag tq">Queue</span></td><td>Remove the front node (dequeue); the node after the header leaves first</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.1</td><td><code>DInsertFirst(e)</code></td><td><span class="tag td">Doubly</span></td><td>Insert a new node immediately after the header node</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.2</td><td><code>DInsertLast(e)</code></td><td><span class="tag td">Doubly</span></td><td>Insert a new node before the header (at the tail) via dhead.prev</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.3</td><td><code>DInsertAfter(t, e)</code></td><td><span class="tag td">Doubly</span></td><td>Find a target node, then insert a new node after it</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.4</td><td><code>DDeleteTarget(t)</code></td><td><span class="tag td">Doubly</span></td><td>Find and remove a target node, re-linking prev and next pointers</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.5</td><td><code>SearchHDList(t)</code></td><td><span class="tag td">Doubly</span></td><td>Traverse the doubly linked list to search for a target value</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.6</td><td><code>DClearList()</code></td><td><span class="tag td">Doubly</span></td><td>Free all nodes in the doubly linked list (header node is kept)</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>C.2</td><td><code>InvertDList()</code></td><td><span class="tag ta">Advanced</span></td><td>Reverse the doubly linked list by swapping every node's prev and next pointers</td><td><span class="badge">O(n)</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="twocol">
-    <div class="panel"><div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h2>Singly circular — structure</h2></div>
-      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">head → [H|•] → [n₁|•] → [n₂|•] → ··· → [nₖ|•] ↩<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>last ──────────────────────────────────────────┘<br><br><span style="color:var(--warn)">H</span> = header node (dummy, data = 0)<br><span style="color:var(--accent)">last</span> = pointer to the tail node<br>The tail node's next points back to head (circular)</p></div>
-    </div>
-    <div class="panel"><div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><h2>Doubly linked — structure</h2></div>
-      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev<br>dhead ⇔ [•|n₁|•] ⇔ [•|n₂|•] ⇔ ··· ⇔ dhead<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →<br><br><span style="color:var(--warn)">dhead</span> = header node (circular doubly linked)<br>Each node carries both a <span style="color:var(--accent)">prev</span> and a <span style="color:var(--primary)">next</span> pointer<br>dhead.prev points to the last node (O(1) tail insert)</p></div>
-    </div>
-  </div>
-</div>
-
 </main>
 </div>
 <script>
-// ── state + undo stacks ──────────────────────────────────────────
 let SL=[], SL_hist=[];
 let ST=[], ST_hist=[];
 let DL=[], DL_hist=[];
@@ -451,7 +384,6 @@ function qUndo(){
   if(!Q_hist.length) document.getElementById('q-undo').disabled=true;
 }
 
-// ── tab routing ──────────────────────────────────────────────────
 document.querySelectorAll('.tab').forEach(b=>{b.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
@@ -459,7 +391,6 @@ document.querySelectorAll('.tab').forEach(b=>{b.addEventListener('click',()=>{
   document.getElementById('page-'+b.dataset.tab).classList.add('active');
 });});
 
-// ── log ──────────────────────────────────────────────────────────
 function log(id,msg,t='info'){
   const a=document.getElementById(id);
   const e=document.createElement('div'); e.className='le';
@@ -468,11 +399,9 @@ function log(id,msg,t='info'){
   a.appendChild(e); a.scrollTop=a.scrollHeight;
 }
 
-// ══════════════ SINGLY ══════════════════════════════════════════
 function sStr(a){return a.length?'head → '+a.join(' → ')+' →(head)':'(empty)';}
 function rSingly(hl=-1,nv=null){
   const viz=document.getElementById('singly-viz'); viz.innerHTML='';
-  // header
   const hw=document.createElement('div'); hw.className='vn pop';
   const hb=document.createElement('div'); hb.className='vb hdr';
   const hd=document.createElement('div'); hd.className='vd'; hd.textContent='H';
@@ -550,7 +479,6 @@ function sClear(){
   log('singly-log','Clear all nodes: list is now empty','warn');
 }
 
-// ══════════════ STACK ════════════════════════════════════════════
 function rStack(){
   const c=document.getElementById('st-nodes'); c.innerHTML='';
   if(!ST.length){c.innerHTML='<span class="stempty">(empty stack)</span>';return;}
@@ -578,7 +506,6 @@ function stPrint(){
   log('st-log',`Print stack → top: ${ST.join(' → ')} → NULL`,'info');
 }
 
-// ══════════════ DOUBLY ═══════════════════════════════════════════
 function dStr(a){return a.length?'head ⇔ '+a.join(' ⇔ ')+' ⇔ head':'(empty)';}
 function mkDN(data,cls=''){
   const w=document.createElement('div'); w.className='dnode pop';
@@ -638,7 +565,6 @@ function dClear(){
   log('dl-log','Clear all nodes: list is now empty','warn');
 }
 
-// ══════════════ QUEUE ════════════════════════════════════════════
 function qStr(a){return a.length?'qhead → [H] → '+a.join(' → ')+' → NULL':'qhead → [H] → NULL';}
 function rQueue(nv=null){
   const viz=document.getElementById('q-viz'); viz.innerHTML='';
@@ -688,7 +614,6 @@ function qRand(){
   log('q-log',qStr(Q),'ok');
 }
 
-// ── init ─────────────────────────────────────────────────────────
 rSingly(); log('singly-log','Initialized — header node ready, circular list starts empty','info');
 rStack();  log('st-log','Initialized — linked stack ready, top = NULL','info');
 rDList();  log('dl-log','Initialized — doubly linked list ready, dhead set up','info');
