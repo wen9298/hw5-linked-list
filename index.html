@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW" data-theme="light">
+<html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,130 +9,143 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300..700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
-  --color-surface-offset:#f0ede9;--color-surface-dynamic:#e6e4df;
-  --color-divider:#dcd9d5;--color-border:#d4d1ca;--color-text:#28251d;
-  --color-text-muted:#7a7974;--color-text-faint:#bab9b4;
-  --color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-hl:#cedcd8;
-  --color-accent:#006494;--color-accent-hl:#c6d8e4;
-  --color-warning:#964219;--color-warning-hl:#ddcfc6;
-  --color-success:#437a22;--color-success-hl:#d4dfcc;
-  --color-error:#a12c7b;--color-error-hl:#e8d0e0;
-  --color-purple:#5a3e8a;--color-purple-hl:#ddd6f0;
-  --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--radius-full:9999px;
-  --shadow-sm:0 1px 3px oklch(0.2 0.01 80/0.08);--shadow-md:0 4px 14px oklch(0.2 0.01 80/0.10);
-  --transition:180ms cubic-bezier(0.16,1,0.3,1);
-  --font-mono:'JetBrains Mono','Fira Code',monospace;--font-body:'Inter',system-ui,sans-serif;
-  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;
-  --text-xs:clamp(.75rem,.7rem+.25vw,.875rem);--text-sm:clamp(.875rem,.8rem+.35vw,1rem);
-  --text-base:clamp(1rem,.95rem+.25vw,1.125rem);--text-lg:clamp(1.125rem,1rem+.75vw,1.5rem);
+  --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;
+  --offset:#f0ede9;--dynamic:#e6e4df;--border:#d4d1ca;
+  --text:#28251d;--muted:#7a7974;--faint:#bab9b4;
+  --primary:#01696f;--primary-h:#0c4e54;--primary-hl:#cedcd8;
+  --accent:#006494;--accent-hl:#c6d8e4;
+  --warn:#964219;--warn-hl:#ddcfc6;
+  --ok:#437a22;--ok-hl:#d4dfcc;
+  --err:#a12c7b;--err-hl:#e8d0e0;
+  --purple:#5a3e8a;--purple-hl:#ddd6f0;
+  --teal:#0e7490;--teal-hl:#cce8ed;
+  --r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-full:9999px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.07);--sh-md:0 4px 14px rgba(0,0,0,.09);
+  --tr:180ms cubic-bezier(.16,1,.3,1);
+  --mono:'JetBrains Mono','Fira Code',monospace;--body:'Inter',system-ui,sans-serif;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s6:1.5rem;--s8:2rem;
+  --xs:clamp(.75rem,.7rem+.25vw,.875rem);--sm:clamp(.875rem,.8rem+.35vw,1rem);
+  --base:clamp(1rem,.95rem+.25vw,1.125rem);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);min-height:100dvh;line-height:1.6}
+body{font-family:var(--body);font-size:var(--base);color:var(--text);background:var(--bg);min-height:100dvh;line-height:1.6}
 button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
-input,select{font:inherit;color:inherit}
-img,svg{display:block}
+input{font:inherit;color:inherit}
+svg{display:block}
 .app{display:grid;grid-template-rows:auto 1fr;min-height:100dvh}
-header{position:sticky;top:0;z-index:50;background:color-mix(in oklch,var(--color-bg) 85%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-6);display:flex;align-items:center;gap:var(--space-4)}
-.logo{display:flex;align-items:center;gap:var(--space-3);text-decoration:none;color:inherit}
-.logo-text{font-size:var(--text-sm);font-weight:600;letter-spacing:-.01em;line-height:1.2}
-.logo-sub{font-size:var(--text-xs);color:var(--color-text-muted)}
-.header-tabs{display:flex;gap:var(--space-2);margin-left:auto}
-.header-tab{padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:500;border:1px solid var(--color-border);color:var(--color-text-muted);background:var(--color-surface-2);transition:all var(--transition)}
-.header-tab:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-hl)}
-.header-tab.active{background:var(--color-primary-hl);border-color:var(--color-primary);color:var(--color-primary);font-weight:600}
-main{display:grid;gap:var(--space-6);padding:var(--space-8) var(--space-6);max-width:1200px;margin-inline:auto;width:100%}
-.section-page{display:none}
-.section-page.active{display:grid;gap:var(--space-6)}
-.panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm);overflow:hidden}
-.panel-header{padding:var(--space-4) var(--space-6);border-bottom:1px solid var(--color-border);background:var(--color-surface-offset);display:flex;align-items:center;gap:var(--space-3)}
-.panel-header h2{font-size:var(--text-base);font-weight:600;letter-spacing:-.01em}
-.panel-body{padding:var(--space-6)}
-.viz-container{min-height:140px;display:flex;align-items:center;padding:var(--space-4) var(--space-6);overflow-x:auto;gap:0;flex-wrap:nowrap;background:var(--color-bg);border-bottom:1px solid var(--color-border)}
-.viz-node{display:flex;flex-direction:column;align-items:center;gap:var(--space-1);flex-shrink:0}
-.viz-node-box{display:flex;border:2px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;background:var(--color-surface-2);transition:all 0.3s cubic-bezier(0.16,1,0.3,1)}
-.viz-node-box.header-node{border-color:var(--color-warning);background:var(--color-warning-hl)}
-.viz-node-box.header-node .viz-node-data{color:var(--color-warning)}
-.viz-node-box.new-node{border-color:var(--color-success);background:var(--color-success-hl)}
-.viz-node-box.new-node .viz-node-data{color:var(--color-success)}
-.viz-node-box.target-node{border-color:var(--color-error);background:var(--color-error-hl)}
-.viz-node-box.target-node .viz-node-data{color:var(--color-error)}
-.viz-node-data{padding:var(--space-2) var(--space-3);min-width:38px;text-align:center;border-right:1px solid var(--color-border)}
-.viz-node-ptr{padding:var(--space-2) var(--space-3);color:var(--color-text-muted);font-size:10px;display:flex;align-items:center}
-.viz-node-label{font-size:10px;color:var(--color-text-faint);font-family:var(--font-mono)}
-.viz-arrow{display:flex;align-items:center;margin-top:22px;color:var(--color-text-faint);font-size:18px;flex-shrink:0;padding:0 2px}
-.viz-arrow.circular{color:var(--color-primary);font-size:14px}
-.viz-empty{color:var(--color-text-faint);font-style:italic;font-size:var(--text-sm);padding:var(--space-4)}
-.viz-last-label{font-size:10px;color:var(--color-accent);font-family:var(--font-mono)}
-.log-area{font-family:var(--font-mono);font-size:var(--text-xs);background:var(--color-bg);border-top:1px solid var(--color-border);padding:var(--space-4) var(--space-6);max-height:180px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
-.log-entry{display:flex;gap:var(--space-3);align-items:flex-start}
-.log-ts{color:var(--color-text-faint);flex-shrink:0;font-size:10px;padding-top:2px}
-.log-msg{color:var(--color-text-muted);line-height:1.5}
-.log-msg.ok{color:var(--color-success)}
-.log-msg.err{color:var(--color-error)}
-.log-msg.info{color:var(--color-accent)}
-.log-msg.warn{color:var(--color-warning)}
-.controls-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-4);padding:var(--space-6)}
-.ctrl-group{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden}
-.ctrl-group-header{padding:var(--space-3) var(--space-4);background:var(--color-surface-offset);border-bottom:1px solid var(--color-border);font-size:var(--text-xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--color-text-muted);display:flex;align-items:center;gap:var(--space-2)}
-.ctrl-group-body{padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)}
-.ctrl-row{display:flex;gap:var(--space-2);align-items:center;flex-wrap:wrap}
-.field-label{font-size:var(--text-xs);font-weight:500;color:var(--color-text-muted);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
-.num-input{width:80px;padding:var(--space-2) var(--space-3);font-family:var(--font-mono);font-size:var(--text-xs);font-weight:600;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);outline:none;transition:border-color var(--transition),box-shadow var(--transition);text-align:center}
-.num-input:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in oklch,var(--color-primary) 18%,transparent)}
-.action-btn{padding:var(--space-2) var(--space-4);background:var(--color-primary);color:#fff;border-radius:var(--radius-md);font-weight:600;font-size:var(--text-xs);white-space:nowrap;transition:background var(--transition),transform var(--transition),box-shadow var(--transition);box-shadow:var(--shadow-sm)}
-.action-btn:hover{background:var(--color-primary-hover);box-shadow:var(--shadow-md);transform:translateY(-1px)}
-.action-btn:active{transform:translateY(0)}
-.action-btn.secondary{background:var(--color-surface-offset);color:var(--color-text-muted);border:1px solid var(--color-border)}
-.action-btn.secondary:hover{background:var(--color-surface-dynamic);color:var(--color-text)}
-.action-btn.danger{background:color-mix(in oklch,var(--color-error) 80%,#000);color:#fff}
-.action-btn.danger:hover{background:var(--color-error)}
-.action-btn.warn{background:var(--color-warning);color:#fff}
-.action-btn.warn:hover{background:color-mix(in oklch,var(--color-warning) 80%,#000)}
-.stack-viz-wrap{display:flex;gap:var(--space-6);align-items:flex-start;padding:var(--space-4) var(--space-6);background:var(--color-bg);border-bottom:1px solid var(--color-border);min-height:140px}
-.stack-column{display:flex;flex-direction:column;align-items:center;gap:var(--space-2)}
-.stack-label{font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);letter-spacing:.04em;text-transform:uppercase;margin-bottom:var(--space-1)}
-.stack-nodes{display:flex;flex-direction:column;gap:4px;align-items:center}
-.stack-node{display:flex;border:2px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;background:var(--color-surface-2);transition:all 0.3s}
-.stack-node.top-node{border-color:var(--color-primary);background:var(--color-primary-hl)}
-.stack-node.top-node .sn-data{color:var(--color-primary)}
-.sn-data{padding:4px 12px;min-width:44px;text-align:center;border-right:1px solid var(--color-border)}
-.sn-ptr{padding:4px 8px;font-size:10px;color:var(--color-text-muted)}
-.stack-empty{color:var(--color-text-faint);font-style:italic;font-size:var(--text-xs)}
-.stack-bottom-label{font-size:10px;color:var(--color-text-faint);font-family:var(--font-mono);margin-top:4px}
-.dlist-viz-container{min-height:120px;display:flex;flex-direction:column;padding:var(--space-4) var(--space-6);overflow-x:auto;background:var(--color-bg);border-bottom:1px solid var(--color-border);gap:var(--space-3);justify-content:center}
-.dlist-row{display:flex;align-items:center;gap:0;flex-wrap:nowrap}
-.dlist-dir-label{font-size:10px;color:var(--color-text-muted);font-family:var(--font-mono);width:60px;flex-shrink:0}
-.dv-node{display:flex;flex-direction:column;align-items:center;gap:var(--space-1);flex-shrink:0}
-.dv-node-box{display:flex;border:2px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;background:var(--color-surface-2);transition:all 0.3s}
-.dv-node-box.header-node{border-color:var(--color-warning);background:var(--color-warning-hl)}
-.dv-node-box.header-node .dv-data{color:var(--color-warning)}
-.dv-node-box.new-node{border-color:var(--color-success);background:var(--color-success-hl)}
-.dv-node-box.new-node .dv-data{color:var(--color-success)}
-.dv-node-box.target-node{border-color:var(--color-error);background:var(--color-error-hl)}
-.dv-node-box.target-node .dv-data{color:var(--color-error)}
-.dv-prev{padding:4px 6px;font-size:10px;color:var(--color-text-muted);border-right:1px solid var(--color-border);display:flex;align-items:center}
-.dv-data{padding:4px 10px;min-width:36px;text-align:center;border-right:1px solid var(--color-border)}
-.dv-next{padding:4px 6px;font-size:10px;color:var(--color-text-muted);display:flex;align-items:center}
-.dv-arrow{display:flex;align-items:center;color:var(--color-accent);font-size:16px;flex-shrink:0;padding:0 2px}
-.ref-table{width:100%;border-collapse:collapse;font-size:var(--text-xs);font-family:var(--font-mono)}
-.ref-table th{padding:var(--space-2) var(--space-4);text-align:left;font-weight:600;color:var(--color-text-muted);letter-spacing:.04em;text-transform:uppercase;border-bottom:2px solid var(--color-border);background:var(--color-surface-offset)}
-.ref-table td{padding:var(--space-2) var(--space-4);border-bottom:1px solid color-mix(in oklch,var(--color-border) 50%,transparent);color:var(--color-text);vertical-align:middle}
-.ref-table tr:last-child td{border-bottom:none}
-.ref-table tbody tr:hover td{background:var(--color-surface-offset)}
-.code-tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:var(--radius-sm);font-size:10px;font-weight:700;white-space:nowrap}
-.tag-singly{background:var(--color-primary-hl);color:var(--color-primary)}
-.tag-doubly{background:var(--color-accent-hl);color:var(--color-accent)}
-.tag-stack{background:var(--color-warning-hl);color:var(--color-warning)}
-.tag-adv{background:var(--color-purple-hl);color:var(--color-purple)}
-.badge{display:inline-flex;padding:2px 7px;border-radius:var(--radius-full);font-size:10px;font-weight:700;background:var(--color-success-hl);color:var(--color-success)}
-@keyframes slide-in-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.fade-in{animation:slide-in-up .4s cubic-bezier(0.16,1,0.3,1) both}
-@keyframes pop-in{0%{transform:scale(0.6);opacity:0}100%{transform:scale(1);opacity:1}}
-.pop{animation:pop-in .25s cubic-bezier(0.16,1,0.3,1) both}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)}
-@media(max-width:900px){.two-col{grid-template-columns:1fr}.controls-grid{grid-template-columns:1fr}main{padding:var(--space-4)}header{padding:var(--space-3) var(--space-4)}.header-tabs{gap:var(--space-1)}}
+header{position:sticky;top:0;z-index:50;background:color-mix(in oklch,var(--bg) 85%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:var(--s3) var(--s6);display:flex;align-items:center;gap:var(--s4);flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:var(--s3);text-decoration:none;color:inherit}
+.logo-text{font-size:var(--sm);font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.logo-sub{font-size:var(--xs);color:var(--muted)}
+.tabs{display:flex;gap:var(--s2);margin-left:auto;flex-wrap:wrap}
+.tab{padding:var(--s1) var(--s3);border-radius:var(--r-full);font-size:var(--xs);font-weight:500;border:1px solid var(--border);color:var(--muted);background:var(--surface2);transition:all var(--tr)}
+.tab:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-hl)}
+.tab.active{background:var(--primary-hl);border-color:var(--primary);color:var(--primary);font-weight:600}
+main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;margin-inline:auto;width:100%}
+.page{display:none}
+.page.active{display:grid;gap:var(--s6)}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-sm);overflow:hidden}
+.ph{padding:var(--s4) var(--s6);border-bottom:1px solid var(--border);background:var(--offset);display:flex;align-items:center;gap:var(--s3)}
+.ph h2{font-size:var(--base);font-weight:600;letter-spacing:-.01em}
+.pb{padding:var(--s6)}
+/* viz */
+.viz{min-height:130px;display:flex;align-items:center;padding:var(--s4) var(--s6);overflow-x:auto;flex-wrap:nowrap;background:var(--bg);border-bottom:1px solid var(--border)}
+.vn{display:flex;flex-direction:column;align-items:center;gap:var(--s1);flex-shrink:0}
+.vb{display:flex;border:2px solid var(--border);border-radius:var(--r-md);overflow:hidden;font-family:var(--mono);font-size:var(--xs);font-weight:700;background:var(--surface2);transition:all .3s cubic-bezier(.16,1,.3,1)}
+.vb.hdr{border-color:var(--warn);background:var(--warn-hl)}.vb.hdr .vd{color:var(--warn)}
+.vb.nw{border-color:var(--ok);background:var(--ok-hl)}.vb.nw .vd{color:var(--ok)}
+.vb.tgt{border-color:var(--err);background:var(--err-hl)}.vb.tgt .vd{color:var(--err)}
+.vd{padding:var(--s2) var(--s3);min-width:38px;text-align:center;border-right:1px solid var(--border)}
+.vp{padding:var(--s2) var(--s3);color:var(--muted);font-size:10px;display:flex;align-items:center}
+.vlbl{font-size:10px;color:var(--faint);font-family:var(--mono)}
+.vlbl.last{color:var(--accent)}
+.arr{display:flex;align-items:center;margin-top:22px;color:var(--faint);font-size:18px;flex-shrink:0;padding:0 2px}
+.arr.circ{color:var(--primary);font-size:14px}
+.empty{color:var(--faint);font-style:italic;font-size:var(--sm);padding:var(--s4)}
+/* log */
+.log{font-family:var(--mono);font-size:var(--xs);background:var(--bg);border-top:1px solid var(--border);padding:var(--s4) var(--s6);max-height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.le{display:flex;gap:var(--s3);align-items:flex-start}
+.lt{color:var(--faint);flex-shrink:0;font-size:10px;padding-top:2px}
+.lm{color:var(--muted);line-height:1.5}
+.lm.ok{color:var(--ok)}.lm.err{color:var(--err)}.lm.info{color:var(--accent)}.lm.warn{color:var(--warn)}
+/* controls */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:var(--s4);padding:var(--s6)}
+.cg{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.cgh{padding:var(--s3) var(--s4);background:var(--offset);border-bottom:1px solid var(--border);font-size:var(--xs);font-weight:600;color:var(--muted);display:flex;align-items:center;gap:var(--s2)}
+.cgb{padding:var(--s4);display:flex;flex-direction:column;gap:var(--s3)}
+.crow{display:flex;gap:var(--s2);align-items:center;flex-wrap:wrap}
+.fl{font-size:var(--xs);font-weight:500;color:var(--muted);white-space:nowrap}
+.ni{width:80px;padding:var(--s2) var(--s3);font-family:var(--mono);font-size:var(--xs);font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);outline:none;transition:border-color var(--tr),box-shadow var(--tr);text-align:center}
+.ni:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in oklch,var(--primary) 18%,transparent)}
+.btn{padding:var(--s2) var(--s4);background:var(--primary);color:#fff;border-radius:var(--r-md);font-weight:600;font-size:var(--xs);white-space:nowrap;transition:background var(--tr),transform var(--tr),box-shadow var(--tr);box-shadow:var(--sh-sm)}
+.btn:hover{background:var(--primary-h);box-shadow:var(--sh-md);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.sec{background:var(--offset);color:var(--muted);border:1px solid var(--border)}
+.btn.sec:hover{background:var(--dynamic);color:var(--text)}
+.btn.red{background:color-mix(in oklch,var(--err) 80%,#000);color:#fff}
+.btn.red:hover{background:var(--err)}
+.btn.amber{background:var(--warn);color:#fff}
+.btn.amber:hover{background:color-mix(in oklch,var(--warn) 80%,#000)}
+.btn.teal{background:var(--teal);color:#fff}
+.btn.teal:hover{background:color-mix(in oklch,var(--teal) 80%,#000)}
+/* stack */
+.stwrap{display:flex;gap:var(--s6);align-items:flex-start;padding:var(--s4) var(--s6);background:var(--bg);border-bottom:1px solid var(--border);min-height:130px}
+.stcol{display:flex;flex-direction:column;align-items:center;gap:var(--s2)}
+.stlbl{font-size:var(--xs);font-weight:600;color:var(--muted);margin-bottom:var(--s1)}
+.stnodes{display:flex;flex-direction:column;gap:4px;align-items:center}
+.stnode{display:flex;border:2px solid var(--border);border-radius:var(--r-md);overflow:hidden;font-family:var(--mono);font-size:var(--xs);font-weight:700;background:var(--surface2);transition:all .3s}
+.stnode.top{border-color:var(--primary);background:var(--primary-hl)}.stnode.top .snd{color:var(--primary)}
+.snd{padding:4px 12px;min-width:44px;text-align:center;border-right:1px solid var(--border)}
+.snp{padding:4px 8px;font-size:10px;color:var(--muted)}
+.stempty{color:var(--faint);font-style:italic;font-size:var(--xs)}
+.stbot{font-size:10px;color:var(--faint);font-family:var(--mono);margin-top:4px}
+/* doubly */
+.dviz{min-height:110px;display:flex;flex-direction:column;padding:var(--s4) var(--s6);overflow-x:auto;background:var(--bg);border-bottom:1px solid var(--border);gap:var(--s3);justify-content:center}
+.drow{display:flex;align-items:center;flex-wrap:nowrap}
+.ddlbl{font-size:10px;color:var(--muted);font-family:var(--mono);width:60px;flex-shrink:0}
+.dnode{display:flex;flex-direction:column;align-items:center;gap:var(--s1);flex-shrink:0}
+.db{display:flex;border:2px solid var(--border);border-radius:var(--r-md);overflow:hidden;font-family:var(--mono);font-size:var(--xs);font-weight:700;background:var(--surface2);transition:all .3s}
+.db.hdr{border-color:var(--warn);background:var(--warn-hl)}.db.hdr .dd{color:var(--warn)}
+.db.nw{border-color:var(--ok);background:var(--ok-hl)}.db.nw .dd{color:var(--ok)}
+.db.tgt{border-color:var(--err);background:var(--err-hl)}.db.tgt .dd{color:var(--err)}
+.dpv{padding:4px 6px;font-size:10px;color:var(--muted);border-right:1px solid var(--border);display:flex;align-items:center}
+.dd{padding:4px 10px;min-width:36px;text-align:center;border-right:1px solid var(--border)}
+.dnx{padding:4px 6px;font-size:10px;color:var(--muted);display:flex;align-items:center}
+.darr{display:flex;align-items:center;color:var(--accent);font-size:16px;flex-shrink:0;padding:0 2px}
+/* queue */
+.qviz{min-height:110px;display:flex;align-items:center;padding:var(--s4) var(--s6);overflow-x:auto;background:var(--bg);border-bottom:1px solid var(--border);gap:0;flex-wrap:nowrap}
+.qnode{display:flex;flex-direction:column;align-items:center;gap:var(--s1);flex-shrink:0}
+.qb{display:flex;border:2px solid var(--border);border-radius:var(--r-md);overflow:hidden;font-family:var(--mono);font-size:var(--xs);font-weight:700;background:var(--surface2);transition:all .3s}
+.qb.hdr{border-color:var(--warn);background:var(--warn-hl)}.qb.hdr .qd{color:var(--warn)}
+.qb.nw{border-color:var(--ok);background:var(--ok-hl)}.qb.nw .qd{color:var(--ok)}
+.qb.front{border-color:var(--teal);background:var(--teal-hl)}.qb.front .qd{color:var(--teal)}
+.qb.rear{border-color:var(--purple);background:var(--purple-hl)}.qb.rear .qd{color:var(--purple)}
+.qd{padding:var(--s2) var(--s3);min-width:38px;text-align:center;border-right:1px solid var(--border)}
+.qp{padding:var(--s2) var(--s3);color:var(--muted);font-size:10px;display:flex;align-items:center}
+.qlbl{font-size:10px;font-family:var(--mono)}
+.qlbl.front{color:var(--teal)}.qlbl.rear{color:var(--purple)}.qlbl.hdr{color:var(--warn)}
+.qarr{display:flex;align-items:center;margin-top:22px;color:var(--faint);font-size:18px;flex-shrink:0;padding:0 2px}
+/* ref table */
+.rtbl{width:100%;border-collapse:collapse;font-size:var(--xs);font-family:var(--mono)}
+.rtbl th{padding:var(--s2) var(--s4);text-align:left;font-weight:600;color:var(--muted);border-bottom:2px solid var(--border);background:var(--offset)}
+.rtbl td{padding:var(--s2) var(--s4);border-bottom:1px solid color-mix(in oklch,var(--border) 50%,transparent);vertical-align:middle}
+.rtbl tr:last-child td{border-bottom:none}
+.rtbl tbody tr:hover td{background:var(--offset)}
+.tag{display:inline-flex;padding:2px 8px;border-radius:var(--r-sm);font-size:10px;font-weight:700;white-space:nowrap}
+.ts{background:var(--primary-hl);color:var(--primary)}
+.td{background:var(--accent-hl);color:var(--accent)}
+.tst{background:var(--warn-hl);color:var(--warn)}
+.tq{background:var(--teal-hl);color:var(--teal)}
+.ta{background:var(--purple-hl);color:var(--purple)}
+.badge{display:inline-flex;padding:2px 7px;border-radius:var(--r-full);font-size:10px;font-weight:700;background:var(--ok-hl);color:var(--ok)}
+/* structure panels */
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
+@keyframes slide-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:slide-up .4s cubic-bezier(.16,1,.3,1) both}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .25s cubic-bezier(.16,1,.3,1) both}
+@media(max-width:900px){.twocol{grid-template-columns:1fr}.cgrid{grid-template-columns:1fr}main{padding:var(--s4)}header{padding:var(--s3) var(--s4)}.tabs{gap:var(--s1)}}
 </style>
 </head>
 <body>
@@ -140,72 +153,70 @@ main{display:grid;gap:var(--space-6);padding:var(--space-8) var(--space-6);max-w
 <header>
   <a href="#" class="logo">
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <rect width="32" height="32" rx="8" fill="var(--color-primary)" opacity="0.15"/>
-      <rect x="1" y="1" width="30" height="30" rx="7.5" stroke="var(--color-primary)" stroke-width="1"/>
-      <text x="16" y="21" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700" fill="var(--color-primary)" text-anchor="middle">LL</text>
+      <rect width="32" height="32" rx="8" fill="var(--primary)" opacity=".15"/>
+      <rect x="1" y="1" width="30" height="30" rx="7.5" stroke="var(--primary)" stroke-width="1"/>
+      <text x="16" y="21" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700" fill="var(--primary)" text-anchor="middle">LL</text>
     </svg>
     <div>
       <div class="logo-text">Linked List Demo</div>
-      <div class="logo-sub">Singly · Doubly · Stack · Invert</div>
+      <div class="logo-sub">Singly · Doubly · Stack · Queue · Invert</div>
     </div>
   </a>
-  <div class="header-tabs">
-    <button class="header-tab active" data-tab="singly">Singly Circular</button>
-    <button class="header-tab" data-tab="stack">Linked Stack</button>
-    <button class="header-tab" data-tab="doubly">Doubly Linked</button>
-    <button class="header-tab" data-tab="ref">Reference</button>
+  <div class="tabs">
+    <button class="tab active" data-tab="singly">Singly circular</button>
+    <button class="tab" data-tab="stack">Linked stack</button>
+    <button class="tab" data-tab="doubly">Doubly linked</button>
+    <button class="tab" data-tab="queue">Linked queue</button>
+    <button class="tab" data-tab="ref">Reference</button>
   </div>
 </header>
 <main>
 
 <!-- SINGLY -->
-<div class="section-page active fade-in" id="page-singly">
+<div class="page active fade" id="page-singly">
   <div class="panel">
-    <div class="panel-header">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>
-      <h2>Singly Circular List <span style="font-size:var(--text-xs);color:var(--color-text-muted);font-family:var(--font-mono);font-weight:400">— header node + last pointer</span></h2>
+    <div class="ph">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>
+      <h2>Singly circular list <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— header node + last pointer</span></h2>
     </div>
-    <div class="viz-container" id="singly-viz"></div>
-    <div class="log-area" id="singly-log"></div>
+    <div class="viz" id="singly-viz"></div>
+    <div class="log" id="singly-log"></div>
   </div>
   <div class="panel">
-    <div class="panel-header">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <h2>Operations</h2>
-    </div>
-    <div class="controls-grid">
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">Value</span><input type="number" class="num-input" id="s-insert-val" value="10"></div>
-          <div class="ctrl-row"><button class="action-btn" onclick="singlyInsertFirst()">InsertFirst</button><button class="action-btn secondary" onclick="singlyInsertLast()">InsertLast</button></div>
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
+    <div class="cgrid">
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="s-iv" value="10"></div>
+          <div class="crow"><button class="btn" onclick="sInsFirst()">InsertFirst</button><button class="btn sec" onclick="sInsLast()">InsertLast</button></div>
         </div>
       </div>
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; Insert</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">Target</span><input type="number" class="num-input" id="s-target-val" value="10"><span class="field-label">Value</span><input type="number" class="num-input" id="s-finsert-val" value="99"></div>
-          <div class="ctrl-row"><button class="action-btn" onclick="singlyInsertAfter()">InsertAfter</button><button class="action-btn secondary" onclick="singlyInsertBefore()">InsertBefore</button></div>
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; insert</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-tv" value="10"><span class="fl">Value</span><input type="number" class="ni" id="s-fv" value="99"></div>
+          <div class="crow"><button class="btn" onclick="sInsAfter()">InsertAfter</button><button class="btn sec" onclick="sInsBefore()">InsertBefore</button></div>
         </div>
       </div>
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; Delete</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">Target</span><input type="number" class="num-input" id="s-delete-val" value="10"><button class="action-btn danger" onclick="singlyDelete()">DeleteTarget</button></div>
-          <div class="ctrl-row"><span class="field-label">Target</span><input type="number" class="num-input" id="s-find-val" value="10"><button class="action-btn secondary" onclick="singlyFind()">FindTarget</button></div>
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; delete</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-dv" value="10"><button class="btn red" onclick="sDel()">DeleteTarget</button></div>
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-sv" value="10"><button class="btn sec" onclick="sFind()">FindTarget</button></div>
         </div>
       </div>
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>Random Insert</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">n</span><input type="number" class="num-input" id="s-rand-n" value="5" min="1" max="20"><span class="field-label">Low</span><input type="number" class="num-input" id="s-rand-low" value="1"><span class="field-label">High</span><input type="number" class="num-input" id="s-rand-high" value="50"></div>
-          <div class="ctrl-row"><button class="action-btn" onclick="singlyRandomInsert()">RandomInsert</button></div>
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/></svg>Random insert</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">n</span><input type="number" class="ni" id="s-rn" value="5" min="1" max="20"><span class="fl">Low</span><input type="number" class="ni" id="s-rl" value="1"><span class="fl">High</span><input type="number" class="ni" id="s-rh" value="50"></div>
+          <div class="crow"><button class="btn" onclick="sRand()">RandomInsert</button></div>
         </div>
       </div>
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg>Misc</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><button class="action-btn secondary" onclick="singlyPrint()">PrintList</button><button class="action-btn warn" onclick="singlyInvert()">InvertList</button><button class="action-btn danger" onclick="singlyClear()">ClearList</button></div>
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg>Print &amp; invert</div>
+        <div class="cgb">
+          <div class="crow"><button class="btn sec" onclick="sPrint()">PrintList</button><button class="btn amber" onclick="sInvert()">InvertList</button><button class="btn red" onclick="sClear()">ClearList</button></div>
         </div>
       </div>
     </div>
@@ -213,23 +224,22 @@ main{display:grid;gap:var(--space-6);padding:var(--space-8) var(--space-6);max-w
 </div>
 
 <!-- STACK -->
-<div class="section-page fade-in" id="page-stack">
+<div class="page fade" id="page-stack">
   <div class="panel">
-    <div class="panel-header">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" stroke-width="2"><rect x="2" y="20" width="20" height="2" rx="1"/><rect x="4" y="14" width="16" height="5" rx="1"/><rect x="4" y="8" width="16" height="5" rx="1"/><rect x="4" y="2" width="16" height="5" rx="1"/></svg>
-      <h2>Linked Stack <span style="font-size:var(--text-xs);color:var(--color-text-muted);font-family:var(--font-mono);font-weight:400">— LIFO · linked nodes</span></h2>
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><rect x="2" y="20" width="20" height="2" rx="1"/><rect x="4" y="14" width="16" height="5" rx="1"/><rect x="4" y="8" width="16" height="5" rx="1"/><rect x="4" y="2" width="16" height="5" rx="1"/></svg>
+      <h2>Linked stack <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— LIFO · linked nodes</span></h2>
     </div>
-    <div class="stack-viz-wrap"><div class="stack-column"><div class="stack-label">Stack (top → bottom)</div><div class="stack-nodes" id="stack-nodes"><span class="stack-empty">（空堆疊）</span></div></div></div>
-    <div class="log-area" id="stack-log"></div>
+    <div class="stwrap"><div class="stcol"><div class="stlbl">Stack (top → bottom)</div><div class="stnodes" id="st-nodes"><span class="stempty">（空堆疊）</span></div></div></div>
+    <div class="log" id="st-log"></div>
   </div>
   <div class="panel">
-    <div class="panel-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
-    <div class="controls-grid">
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 11 12 6 7 11"/><line x1="12" y1="18" x2="12" y2="6"/></svg>Push / Pop / Peek</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">Value</span><input type="number" class="num-input" id="stack-push-val" value="42"><button class="action-btn" onclick="stackPush()">Push</button></div>
-          <div class="ctrl-row"><button class="action-btn danger" onclick="stackPop()">Pop</button><button class="action-btn secondary" onclick="stackPeek()">Peek</button><button class="action-btn secondary" onclick="stackPrint()">PrintStack</button></div>
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
+    <div class="cgrid">
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 11 12 6 7 11"/><line x1="12" y1="18" x2="12" y2="6"/></svg>Push / pop / peek</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="st-v" value="42"><button class="btn" onclick="stPush()">Push</button></div>
+          <div class="crow"><button class="btn red" onclick="stPop()">Pop</button><button class="btn sec" onclick="stPeek()">Peek</button><button class="btn sec" onclick="stPrint()">PrintStack</button></div>
         </div>
       </div>
     </div>
@@ -237,83 +247,118 @@ main{display:grid;gap:var(--space-6);padding:var(--space-8) var(--space-6);max-w
 </div>
 
 <!-- DOUBLY -->
-<div class="section-page fade-in" id="page-doubly">
+<div class="page fade" id="page-doubly">
   <div class="panel">
-    <div class="panel-header">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-      <h2>Doubly Linked List <span style="font-size:var(--text-xs);color:var(--color-text-muted);font-family:var(--font-mono);font-weight:400">— header node · prev &amp; next</span></h2>
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      <h2>Doubly linked list <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— header node · prev &amp; next</span></h2>
     </div>
-    <div class="dlist-viz-container" id="dlist-viz"><span class="viz-empty">（空雙向串列）</span></div>
-    <div class="log-area" id="dlist-log"></div>
+    <div class="dviz" id="dl-viz"><span class="empty">（空雙向串列）</span></div>
+    <div class="log" id="dl-log"></div>
   </div>
   <div class="panel">
-    <div class="panel-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
-    <div class="controls-grid">
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">Value</span><input type="number" class="num-input" id="d-insert-val" value="10"></div>
-          <div class="ctrl-row"><button class="action-btn" onclick="doublyInsertFirst()">DInsertFirst</button><button class="action-btn secondary" onclick="doublyInsertLast()">DInsertLast</button></div>
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
+    <div class="cgrid">
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="d-iv" value="10"></div>
+          <div class="crow"><button class="btn" onclick="dInsFirst()">DInsertFirst</button><button class="btn sec" onclick="dInsLast()">DInsertLast</button></div>
         </div>
       </div>
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; Insert After</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">Target</span><input type="number" class="num-input" id="d-target-val" value="10"><span class="field-label">Value</span><input type="number" class="num-input" id="d-after-val" value="99"></div>
-          <div class="ctrl-row"><button class="action-btn" onclick="doublyInsertAfter()">DInsertAfter</button></div>
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; insert after</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="d-tv" value="10"><span class="fl">Value</span><input type="number" class="ni" id="d-av" value="99"></div>
+          <div class="crow"><button class="btn" onclick="dInsAfter()">DInsertAfter</button></div>
         </div>
       </div>
-      <div class="ctrl-group">
-        <div class="ctrl-group-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find, Delete &amp; Invert</div>
-        <div class="ctrl-group-body">
-          <div class="ctrl-row"><span class="field-label">Target</span><input type="number" class="num-input" id="d-delete-val" value="10"></div>
-          <div class="ctrl-row"><button class="action-btn secondary" onclick="doublySearch()">DSearch</button><button class="action-btn danger" onclick="doublyDelete()">DDelete</button></div>
-          <div class="ctrl-row"><button class="action-btn warn" onclick="doublyInvert()">InvertDList</button><button class="action-btn danger" onclick="doublyClear()">DClearList</button></div>
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search, delete &amp; invert</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="d-dv" value="10"></div>
+          <div class="crow"><button class="btn sec" onclick="dSearch()">DSearch</button><button class="btn red" onclick="dDel()">DDelete</button></div>
+          <div class="crow"><button class="btn amber" onclick="dInvert()">InvertDList</button><button class="btn red" onclick="dClear()">DClearList</button></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- REFERENCE -->
-<div class="section-page fade-in" id="page-ref">
+<!-- QUEUE -->
+<div class="page fade" id="page-queue">
   <div class="panel">
-    <div class="panel-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>All Operations — Quick Reference</h2></div>
-    <div class="panel-body" style="padding:0;overflow-x:auto">
-      <table class="ref-table">
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><polyline points="17 8 21 12 17 16"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="3" y2="18"/></svg>
+      <h2>Linked queue <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— FIFO · empty header node · qrear pointer</span></h2>
+    </div>
+    <div class="qviz" id="q-viz"><span class="empty">（空佇列）</span></div>
+    <div class="log" id="q-log"></div>
+  </div>
+  <div class="panel">
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
+    <div class="cgrid">
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 8 21 12 17 16"/><line x1="3" y1="12" x2="21" y2="12"/></svg>Enqueue / dequeue</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="q-v" value="10"><button class="btn teal" onclick="qEnq()">InsertQ (enqueue)</button></div>
+          <div class="crow"><button class="btn red" onclick="qDeq()">DeleteQ (dequeue)</button><button class="btn sec" onclick="qPrint()">PrintQueue</button></div>
+        </div>
+      </div>
+      <div class="cg">
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/></svg>Random enqueue</div>
+        <div class="cgb">
+          <div class="crow"><span class="fl">n</span><input type="number" class="ni" id="q-rn" value="4" min="1" max="15"><span class="fl">Low</span><input type="number" class="ni" id="q-rl" value="1"><span class="fl">High</span><input type="number" class="ni" id="q-rh" value="50"></div>
+          <div class="crow"><button class="btn teal" onclick="qRand()">Random enqueue</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h2>Queue structure</h2></div>
+    <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.9;font-family:var(--mono)">qhead → [H|•] → [front|•] → [n₂|•] → ··· → [rear|NULL]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ Front (dequeue)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ qrear (enqueue)<br><br><span style="color:var(--warn)">H</span> = empty header node (dummy, data=0)<br><span style="color:var(--teal)">Front</span> = qhead→next = 下一個出隊節點<br><span style="color:var(--purple)">qrear</span> = 指向隊尾，enqueue 在此接新節點<br>FIFO: 從 front 出隊，從 rear 入隊</p></div>
+  </div>
+</div>
+
+<!-- REFERENCE -->
+<div class="page fade" id="page-ref">
+  <div class="panel">
+    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>All operations — quick reference</h2></div>
+    <div class="pb" style="padding:0;overflow-x:auto">
+      <table class="rtbl">
         <thead><tr><th>#</th><th>Function</th><th>Type</th><th>Description</th><th>Time</th></tr></thead>
         <tbody>
-          <tr><td>0</td><td><code>InitList()</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>建立 header node，初始化環狀串列</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>1</td><td><code>PrintList()</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>依序印出所有元素（不含 header node）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>2.1</td><td><code>InsertFirst(e)</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>在 header node 後插入，成為第一個元素</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>2.2</td><td><code>InsertLast(e)</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>利用 last 指標直接在末端插入</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>3.1</td><td><code>FindTarget(t)</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>搜尋 target，印出找到 / 找不到訊息</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.2</td><td><code>FindInsertAfter(t,e)</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>找到 target 後在其後插入 element</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.3</td><td><code>FindInsertBefore(t,e)</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>找到 target 後在其前插入（需追蹤前一節點）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.4</td><td><code>DeleteTarget(t)</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>找到 target 並刪除，更新 last 指標</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>4</td><td><code>RandomInsert(n,lo,hi)</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>插入 n 個 [lo,hi] 範圍亂數節點至末端</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>5</td><td><code>ClearList()</code></td><td><span class="code-tag tag-singly">Singly</span></td><td>清除所有節點，歸還記憶空間（保留 header）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>B</td><td><code>Push(e)</code></td><td><span class="code-tag tag-stack">Stack</span></td><td>壓入新節點至堆疊頂端</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>B</td><td><code>Pop()</code></td><td><span class="code-tag tag-stack">Stack</span></td><td>彈出頂端節點並歸還記憶空間</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>B</td><td><code>Peek()</code></td><td><span class="code-tag tag-stack">Stack</span></td><td>查看堆疊頂端資料（不彈出）</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>C.1</td><td><code>InvertList()</code></td><td><span class="code-tag tag-adv">Advanced</span></td><td>原地反轉單向環狀串列（三指標法：r, s, t）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.1</td><td><code>DInsertFirst(e)</code></td><td><span class="code-tag tag-doubly">Doubly</span></td><td>雙向串列：在 dhead 後插入</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.2</td><td><code>DInsertLast(e)</code></td><td><span class="code-tag tag-doubly">Doubly</span></td><td>雙向串列：在 dhead.prev 後插入</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.3</td><td><code>DInsertAfter(t,e)</code></td><td><span class="code-tag tag-doubly">Doubly</span></td><td>雙向串列：找到 target 後插入</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.4</td><td><code>DDeleteTarget(t)</code></td><td><span class="code-tag tag-doubly">Doubly</span></td><td>雙向串列：找到並刪除 target</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.5</td><td><code>SearchHDList(t)</code></td><td><span class="code-tag tag-doubly">Doubly</span></td><td>雙向串列：搜尋 target</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.6</td><td><code>DClearList()</code></td><td><span class="code-tag tag-doubly">Doubly</span></td><td>雙向串列：清除所有節點</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>C.2</td><td><code>InvertDList()</code></td><td><span class="code-tag tag-adv">Advanced</span></td><td>交換所有節點的 prev/next 指標以反轉雙向串列</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>0</td><td><code>InitList()</code></td><td><span class="tag ts">Singly</span></td><td>建立 header node，初始化環狀串列</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>1</td><td><code>PrintList()</code></td><td><span class="tag ts">Singly</span></td><td>依序印出所有元素（不含 header node）</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>2.1</td><td><code>InsertFirst(e)</code></td><td><span class="tag ts">Singly</span></td><td>在 header node 後插入，成為第一個元素</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>2.2</td><td><code>InsertLast(e)</code></td><td><span class="tag ts">Singly</span></td><td>利用 last 指標直接在末端插入</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>3.1</td><td><code>FindTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>搜尋 target，印出找到 / 找不到訊息</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>3.2</td><td><code>FindInsertAfter(t,e)</code></td><td><span class="tag ts">Singly</span></td><td>找到 target 後在其後插入 element</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>3.3</td><td><code>FindInsertBefore(t,e)</code></td><td><span class="tag ts">Singly</span></td><td>找到 target 後在其前插入（需追蹤前一節點）</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>3.4</td><td><code>DeleteTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>找到 target 並刪除，更新 last 指標</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>4</td><td><code>RandomInsert(n,lo,hi)</code></td><td><span class="tag ts">Singly</span></td><td>插入 n 個 [lo,hi] 範圍亂數節點至末端</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>5</td><td><code>ClearList()</code></td><td><span class="tag ts">Singly</span></td><td>清除所有節點，歸還記憶空間（保留 header）</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>C.1</td><td><code>InvertList()</code></td><td><span class="tag ta">Advanced</span></td><td>原地反轉單向環狀串列（三指標法：r, s, t）</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>B</td><td><code>Push(e)</code></td><td><span class="tag tst">Stack</span></td><td>壓入新節點至堆疊頂端</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>B</td><td><code>Pop()</code></td><td><span class="tag tst">Stack</span></td><td>彈出頂端節點並歸還記憶空間</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>B</td><td><code>Peek()</code></td><td><span class="tag tst">Stack</span></td><td>查看堆疊頂端資料（不彈出）</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>C</td><td><code>InsertQ(e)</code></td><td><span class="tag tq">Queue</span></td><td>在 qrear 後接新節點（enqueue），更新 qrear</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>C</td><td><code>DeleteQ()</code></td><td><span class="tag tq">Queue</span></td><td>移除 qhead→next（front）節點（dequeue）</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>D.1</td><td><code>DInsertFirst(e)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：在 dhead 後插入</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>D.2</td><td><code>DInsertLast(e)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：在 dhead.prev 後插入</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>D.3</td><td><code>DInsertAfter(t,e)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：找到 target 後插入</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>D.4</td><td><code>DDeleteTarget(t)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：找到並刪除 target</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>D.5</td><td><code>SearchHDList(t)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：搜尋 target</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>D.6</td><td><code>DClearList()</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：清除所有節點</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>C.2</td><td><code>InvertDList()</code></td><td><span class="tag ta">Advanced</span></td><td>交換所有節點的 prev/next 指標以反轉雙向串列</td><td><span class="badge">O(n)</span></td></tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class="two-col">
-    <div class="panel"><div class="panel-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h2>Singly Circular — Structure</h2></div>
-      <div class="panel-body"><p style="font-size:var(--text-xs);color:var(--color-text-muted);line-height:1.8;font-family:var(--font-mono)">head → [H|•] → [n₁|•] → [n₂|•] → ··· → [nₖ|•] ↩<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>last ──────────────────────────────────────────┘<br><br><span style="color:var(--color-warning)">H</span> = header node (dummy, data=0)<br><span style="color:var(--color-accent)">last</span> = pointer to tail node<br>Last node's next → head (circular)</p></div>
+  <div class="twocol">
+    <div class="panel"><div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h2>Singly circular — structure</h2></div>
+      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">head → [H|•] → [n₁|•] → [n₂|•] → ··· → [nₖ|•] ↩<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>last ──────────────────────────────────────────┘<br><br><span style="color:var(--warn)">H</span> = header node (dummy, data=0)<br><span style="color:var(--accent)">last</span> = pointer to tail node<br>Last node's next → head (circular)</p></div>
     </div>
-    <div class="panel"><div class="panel-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><h2>Doubly Linked — Structure</h2></div>
-      <div class="panel-body"><p style="font-size:var(--text-xs);color:var(--color-text-muted);line-height:1.8;font-family:var(--font-mono)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev<br>dhead ⇔ [•|n₁|•] ⇔ [•|n₂|•] ⇔ ··· ⇔ dhead<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →<br><br><span style="color:var(--color-warning)">dhead</span> = header node (circular doubly)<br>Each node has <span style="color:var(--color-accent)">prev</span> and <span style="color:var(--color-primary)">next</span> pointers<br>dhead.prev → last node (O(1) tail insert)</p></div>
+    <div class="panel"><div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><h2>Doubly linked — structure</h2></div>
+      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev<br>dhead ⇔ [•|n₁|•] ⇔ [•|n₂|•] ⇔ ··· ⇔ dhead<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →<br><br><span style="color:var(--warn)">dhead</span> = header node (circular doubly)<br>Each node has <span style="color:var(--accent)">prev</span> and <span style="color:var(--primary)">next</span> pointers<br>dhead.prev → last node (O(1) tail insert)</p></div>
     </div>
   </div>
 </div>
@@ -321,40 +366,59 @@ main{display:grid;gap:var(--space-6);padding:var(--space-8) var(--space-6);max-w
 </main>
 </div>
 <script>
-let singlyList=[],stackData=[],doublyList=[];
-document.querySelectorAll('.header-tab').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.header-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.section-page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+btn.dataset.tab).classList.add('active');});});
-function log(id,msg,type='info'){const a=document.getElementById(id);const e=document.createElement('div');e.className='log-entry';const now=new Date();const ts=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');e.innerHTML=`<span class="log-ts">${ts}</span><span class="log-msg ${type}">${msg}</span>`;a.appendChild(e);a.scrollTop=a.scrollHeight;}
-function listStr(arr){return arr.length===0?'(空串列)':'head → '+arr.join(' → ')+ ' →(head)';}
-function makeVizNode(data,ptr,cls='',lbl=''){const w=document.createElement('div');w.className='viz-node pop';const b=document.createElement('div');b.className='viz-node-box'+(cls?' '+cls:'');const d=document.createElement('div');d.className='viz-node-data';d.textContent=data;const p=document.createElement('div');p.className='viz-node-ptr';p.textContent=ptr;b.appendChild(d);b.appendChild(p);w.appendChild(b);if(lbl){const l=document.createElement('div');l.className=lbl==='last'?'viz-last-label':'viz-node-label';l.textContent=lbl;w.appendChild(l);}return w;}
-function renderSingly(hlTarget=-1,newVal=null){const viz=document.getElementById('singly-viz');viz.innerHTML='';viz.appendChild(makeVizNode('H','→','header-node','header'));if(singlyList.length===0){const a=document.createElement('span');a.className='viz-arrow circular';a.textContent='↩';viz.appendChild(a);return;}let marked=false;singlyList.forEach((val,idx)=>{const a=document.createElement('span');a.className='viz-arrow';a.textContent='→';viz.appendChild(a);let cls='';if(val===newVal&&!marked){cls='new-node';marked=true;}if(val===hlTarget)cls='target-node';const isLast=idx===singlyList.length-1;viz.appendChild(makeVizNode(val,isLast?'↩':'→',cls,isLast?'last':''));});}
-function singlyInsertFirst(){const v=parseInt(document.getElementById('s-insert-val').value);if(isNaN(v))return;singlyList.unshift(v);renderSingly(-1,v);log('singly-log',`[InsertFirst(${v})]  ${listStr(singlyList)}`,'ok');}
-function singlyInsertLast(){const v=parseInt(document.getElementById('s-insert-val').value);if(isNaN(v))return;singlyList.push(v);renderSingly(-1,v);log('singly-log',`[InsertLast(${v})]  ${listStr(singlyList)}`,'ok');}
-function singlyInsertAfter(){const t=parseInt(document.getElementById('s-target-val').value),v=parseInt(document.getElementById('s-finsert-val').value);if(isNaN(t)||isNaN(v))return;const i=singlyList.indexOf(t);if(i===-1){log('singly-log',`[Find] target=${t} 找不到！`,'err');return;}log('singly-log',`[Find] target=${t} 找到了。`,'info');singlyList.splice(i+1,0,v);renderSingly(t);log('singly-log',`[InsertAfter ${t}]  ${listStr(singlyList)}`,'ok');}
-function singlyInsertBefore(){const t=parseInt(document.getElementById('s-target-val').value),v=parseInt(document.getElementById('s-finsert-val').value);if(isNaN(t)||isNaN(v))return;const i=singlyList.indexOf(t);if(i===-1){log('singly-log',`[Find] target=${t} 找不到！`,'err');return;}log('singly-log',`[Find] target=${t} 找到了。`,'info');singlyList.splice(i,0,v);renderSingly(t);log('singly-log',`[InsertBefore ${t}]  ${listStr(singlyList)}`,'ok');}
-function singlyDelete(){const t=parseInt(document.getElementById('s-delete-val').value);if(isNaN(t))return;const i=singlyList.indexOf(t);if(i===-1){log('singly-log',`[Delete] target=${t} 找不到！`,'err');return;}singlyList.splice(i,1);renderSingly();log('singly-log',`[Delete ${t}] 已刪除。目前串列: ${listStr(singlyList)}`,'warn');}
-function singlyFind(){const t=parseInt(document.getElementById('s-find-val').value);if(isNaN(t))return;const i=singlyList.indexOf(t);if(i===-1){log('singly-log',`[Find] target=${t} 找不到！`,'err');renderSingly();}else{renderSingly(t);log('singly-log',`[Find] target=${t} 找到了。`,'ok');}}
-function singlyRandomInsert(){const n=parseInt(document.getElementById('s-rand-n').value),lo=parseInt(document.getElementById('s-rand-low').value),hi=parseInt(document.getElementById('s-rand-high').value);if(isNaN(n)||isNaN(lo)||isNaN(hi)||lo>hi){log('singly-log','[RandomInsert] 輸入範圍錯誤！','err');return;}const ins=[];for(let i=0;i<n;i++){const v=Math.floor(Math.random()*(hi-lo+1))+lo;singlyList.push(v);ins.push(v);}renderSingly();log('singly-log',`[RandomInsert] 新增 ${n} 個亂數（範圍 ${lo}~${hi}）: [${ins.join(', ')}]`,'info');log('singly-log',`插入後串列: ${listStr(singlyList)}`,'ok');}
-function singlyPrint(){renderSingly();log('singly-log',`[PrintList]  ${listStr(singlyList)}`,'info');}
-function singlyInvert(){if(singlyList.length===0){log('singly-log','[Invert] 串列為空，無需反向。','warn');return;}singlyList.reverse();renderSingly();log('singly-log',`[InvertList] 反向完成。目前串列: ${listStr(singlyList)}`,'ok');}
-function singlyClear(){singlyList=[];renderSingly();log('singly-log','[ClearList] 所有節點已清除。目前串列: (空串列)','warn');}
-function renderStack(){const c=document.getElementById('stack-nodes');c.innerHTML='';if(stackData.length===0){c.innerHTML='<span class="stack-empty">（空堆疊）</span>';return;}stackData.forEach((v,i)=>{const isTop=i===0;const n=document.createElement('div');n.className='stack-node pop'+(isTop?' top-node':'');n.innerHTML=`<div class="sn-data">${v}</div><div class="sn-ptr">${isTop?'top':'→'}</div>`;c.appendChild(n);if(!isTop){const a=document.createElement('div');a.style.cssText='font-size:12px;color:var(--color-text-faint);text-align:center';a.textContent='↓';c.appendChild(a);}});const b=document.createElement('div');b.className='stack-bottom-label';b.textContent='── NULL (bottom) ──';c.appendChild(b);}
-function stackPush(){const v=parseInt(document.getElementById('stack-push-val').value);if(isNaN(v))return;stackData.unshift(v);renderStack();log('stack-log',`[Push(${v})] Stack top → ${stackData.join(' → ')} → NULL`,'ok');}
-function stackPop(){if(!stackData.length){log('stack-log','[Pop] Stack 為空！','err');return;}const item=stackData.shift();renderStack();const rest=stackData.length?stackData.join(' → ')+' → NULL':'(空堆疊)';log('stack-log',`[Pop] 彈出: ${item}，Stack top → ${rest}`,'warn');}
-function stackPeek(){if(!stackData.length){log('stack-log','[Peek] Stack 為空！','err');return;}log('stack-log',`[Peek] 頂端資料: ${stackData[0]}`,'info');}
-function stackPrint(){if(!stackData.length){log('stack-log','[PrintStack] (空堆疊)','info');return;}log('stack-log',`[PrintStack] top → ${stackData.join(' → ')} → NULL (bottom)`,'info');}
-function makeDVNode(data,cls=''){const w=document.createElement('div');w.className='dv-node pop';const b=document.createElement('div');b.className='dv-node-box'+(cls?' '+cls:'');const prev=document.createElement('div');prev.className='dv-prev';prev.textContent='←';const d=document.createElement('div');d.className='dv-data';d.textContent=data;const nxt=document.createElement('div');nxt.className='dv-next';nxt.textContent='→';b.appendChild(prev);b.appendChild(d);b.appendChild(nxt);w.appendChild(b);return w;}
-function renderDList(hlTarget=-1,newVal=null){const viz=document.getElementById('dlist-viz');viz.innerHTML='';if(doublyList.length===0){const e=document.createElement('span');e.className='viz-empty';e.textContent='（空雙向串列）';viz.appendChild(e);return;}const row=document.createElement('div');row.className='dlist-row';const lbl=document.createElement('span');lbl.className='dlist-dir-label';lbl.textContent='正向:';row.appendChild(lbl);row.appendChild(makeDVNode('head','header-node'));let marked=false;doublyList.forEach(val=>{const a=document.createElement('span');a.className='dv-arrow';a.textContent='⇔';row.appendChild(a);let cls='';if(val===newVal&&!marked){cls='new-node';marked=true;}if(val===hlTarget)cls='target-node';row.appendChild(makeDVNode(val,cls));});const ea=document.createElement('span');ea.className='dv-arrow';ea.textContent='⇔';row.appendChild(ea);row.appendChild(makeDVNode('head','header-node'));viz.appendChild(row);}
-function dlistStr(arr){return arr.length===0?'（空雙向串列）':'head ⇔ '+arr.join(' ⇔ ')+' ⇔ head';}
-function doublyInsertFirst(){const v=parseInt(document.getElementById('d-insert-val').value);if(isNaN(v))return;doublyList.unshift(v);renderDList(-1,v);log('dlist-log',`[DInsertFirst(${v})]  ${dlistStr(doublyList)}`,'ok');}
-function doublyInsertLast(){const v=parseInt(document.getElementById('d-insert-val').value);if(isNaN(v))return;doublyList.push(v);renderDList(-1,v);log('dlist-log',`[DInsertLast(${v})]  ${dlistStr(doublyList)}`,'ok');}
-function doublyInsertAfter(){const t=parseInt(document.getElementById('d-target-val').value),v=parseInt(document.getElementById('d-after-val').value);if(isNaN(t)||isNaN(v))return;const i=doublyList.indexOf(t);if(i===-1){log('dlist-log',`[DFind] target=${t} 找不到！`,'err');return;}log('dlist-log',`[DFind] target=${t} 找到了。`,'info');doublyList.splice(i+1,0,v);renderDList(t,v);log('dlist-log',`[DInsertAfter ${t}]  ${dlistStr(doublyList)}`,'ok');}
-function doublySearch(){const t=parseInt(document.getElementById('d-delete-val').value);if(isNaN(t))return;const i=doublyList.indexOf(t);if(i===-1){log('dlist-log',`[DFind] target=${t} 找不到！`,'err');renderDList();}else{renderDList(t);log('dlist-log',`[DFind] target=${t} 找到了。`,'ok');}}
-function doublyDelete(){const t=parseInt(document.getElementById('d-delete-val').value);if(isNaN(t))return;const i=doublyList.indexOf(t);if(i===-1){log('dlist-log',`[DDelete] target=${t} 找不到！`,'err');return;}doublyList.splice(i,1);renderDList();log('dlist-log',`[DDelete ${t}] 已刪除。目前雙向串列: ${dlistStr(doublyList)}`,'warn');}
-function doublyInvert(){if(!doublyList.length){log('dlist-log','[InvertDList] 串列為空，無需反向。','warn');return;}doublyList.reverse();renderDList();log('dlist-log',`[InvertDList] 反向完成。目前雙向串列: ${dlistStr(doublyList)}`,'ok');}
-function doublyClear(){doublyList=[];renderDList();log('dlist-log','[DClearList] 所有節點已清除。目前雙向串列: （空雙向串列）','warn');}
-renderSingly();log('singly-log','初始化完成。header node 建立，環狀串列就緒。','info');
-renderStack();log('stack-log','Linked Stack 就緒。top = NULL','info');
-renderDList();log('dlist-log','Doubly Linked List 初始化完成。dhead 建立。','info');
+let SL=[],ST=[],DL=[],Q=[];
+// tab routing
+document.querySelectorAll('.tab').forEach(b=>{b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+b.dataset.tab).classList.add('active');
+});});
+// log
+function log(id,msg,t='info'){const a=document.getElementById(id);const e=document.createElement('div');e.className='le';const n=new Date();const ts=n.toTimeString().slice(0,8);e.innerHTML=`<span class="lt">${ts}</span><span class="lm ${t}">${msg}</span>`;a.appendChild(e);a.scrollTop=a.scrollHeight;}
+// ========== SINGLY ==========
+function sStr(a){return a.length?'head → '+a.join(' → ')+' →(head)':'(empty)';}
+function mkVN(data,ptr,cls='',lbl=''){const w=document.createElement('div');w.className='vn pop';const b=document.createElement('div');b.className='vb'+(cls?' '+cls:'');const d=document.createElement('div');d.className='vd';d.textContent=data;const p=document.createElement('div');p.className='vp';p.textContent=ptr;b.appendChild(d);b.appendChild(p);w.appendChild(b);if(lbl){const l=document.createElement('div');l.className='vlbl'+(lbl==='last'?' last':'');l.textContent=lbl;}return w;}
+function rSingly(hl=-1,nv=null){const viz=document.getElementById('singly-viz');viz.innerHTML='';viz.appendChild(mkVN('H','→','hdr','header'));if(!SL.length){const a=document.createElement('span');a.className='arr circ';a.textContent='↩';viz.appendChild(a);return;}let mk=false;SL.forEach((v,i)=>{const a=document.createElement('span');a.className='arr';a.textContent='→';viz.appendChild(a);let cls='';if(v===nv&&!mk){cls='nw';mk=true;}if(v===hl)cls='tgt';const isL=i===SL.length-1;const w=document.createElement('div');w.className='vn pop';const b=document.createElement('div');b.className='vb'+(cls?' '+cls:'');const dd=document.createElement('div');dd.className='vd';dd.textContent=v;const pp=document.createElement('div');pp.className='vp';pp.textContent=isL?'↩':'→';b.appendChild(dd);b.appendChild(pp);w.appendChild(b);if(isL){const l=document.createElement('div');l.className='vlbl last';l.textContent='last';w.appendChild(l);}viz.appendChild(w);});}
+function sInsFirst(){const v=+document.getElementById('s-iv').value;if(isNaN(v))return;SL.unshift(v);rSingly(-1,v);log('singly-log',`InsertFirst(${v}) → ${sStr(SL)}`,'ok');}
+function sInsLast(){const v=+document.getElementById('s-iv').value;if(isNaN(v))return;SL.push(v);rSingly(-1,v);log('singly-log',`InsertLast(${v}) → ${sStr(SL)}`,'ok');}
+function sInsAfter(){const t=+document.getElementById('s-tv').value,v=+document.getElementById('s-fv').value;if(isNaN(t)||isNaN(v))return;const i=SL.indexOf(t);if(i<0){log('singly-log',`FindTarget(${t}): not found`,'err');return;}log('singly-log',`FindTarget(${t}): found`,'info');SL.splice(i+1,0,v);rSingly(t);log('singly-log',`InsertAfter ${t} → ${sStr(SL)}`,'ok');}
+function sInsBefore(){const t=+document.getElementById('s-tv').value,v=+document.getElementById('s-fv').value;if(isNaN(t)||isNaN(v))return;const i=SL.indexOf(t);if(i<0){log('singly-log',`FindTarget(${t}): not found`,'err');return;}log('singly-log',`FindTarget(${t}): found`,'info');SL.splice(i,0,v);rSingly(t);log('singly-log',`InsertBefore ${t} → ${sStr(SL)}`,'ok');}
+function sDel(){const t=+document.getElementById('s-dv').value;if(isNaN(t))return;const i=SL.indexOf(t);if(i<0){log('singly-log',`DeleteTarget(${t}): not found`,'err');return;}SL.splice(i,1);rSingly();log('singly-log',`DeleteTarget(${t}): removed → ${sStr(SL)}`,'warn');}
+function sFind(){const t=+document.getElementById('s-sv').value;if(isNaN(t))return;const i=SL.indexOf(t);if(i<0){rSingly();log('singly-log',`FindTarget(${t}): not found`,'err');}else{rSingly(t);log('singly-log',`FindTarget(${t}): found`,'ok');}}
+function sRand(){const n=+document.getElementById('s-rn').value,lo=+document.getElementById('s-rl').value,hi=+document.getElementById('s-rh').value;if(isNaN(n)||isNaN(lo)||isNaN(hi)||lo>hi){log('singly-log','Random insert: invalid range','err');return;}const ins=[];for(let i=0;i<n;i++){const v=Math.floor(Math.random()*(hi-lo+1))+lo;SL.push(v);ins.push(v);}rSingly();log('singly-log',`RandomInsert(${n}, ${lo}~${hi}): [${ins.join(', ')}]`,'info');log('singly-log',sStr(SL),'ok');}
+function sPrint(){rSingly();log('singly-log',`PrintList → ${sStr(SL)}`,'info');}
+function sInvert(){if(!SL.length){log('singly-log','InvertList: list is empty','warn');return;}SL.reverse();rSingly();log('singly-log',`InvertList → ${sStr(SL)}`,'ok');}
+function sClear(){SL=[];rSingly();log('singly-log','ClearList: all nodes removed','warn');}
+// ========== STACK ==========
+function rStack(){const c=document.getElementById('st-nodes');c.innerHTML='';if(!ST.length){c.innerHTML='<span class="stempty">（空堆疊）</span>';return;}ST.forEach((v,i)=>{const top=i===0;const n=document.createElement('div');n.className='stnode pop'+(top?' top':'');n.innerHTML=`<div class="snd">${v}</div><div class="snp">${top?'top':'→'}</div>`;c.appendChild(n);if(!top){const a=document.createElement('div');a.style.cssText='font-size:12px;color:var(--faint);text-align:center';a.textContent='↓';c.appendChild(a);}});const b=document.createElement('div');b.className='stbot';b.textContent='── NULL (bottom) ──';c.appendChild(b);}
+function stPush(){const v=+document.getElementById('st-v').value;if(isNaN(v))return;ST.unshift(v);rStack();log('st-log',`Push(${v}) → top: ${ST[0]}`,'ok');}
+function stPop(){if(!ST.length){log('st-log','Pop: stack is empty','err');return;}const it=ST.shift();rStack();log('st-log',`Pop → removed: ${it}, new top: ${ST[0]??'NULL'}`,'warn');}
+function stPeek(){if(!ST.length){log('st-log','Peek: stack is empty','err');return;}log('st-log',`Peek → top: ${ST[0]}`,'info');}
+function stPrint(){if(!ST.length){log('st-log','PrintStack → (empty)','info');return;}log('st-log',`PrintStack → top: ${ST.join(' → ')} → NULL`,'info');}
+// ========== DOUBLY ==========
+function dStr(a){return a.length?'head ⇔ '+a.join(' ⇔ ')+' ⇔ head':'(empty)';}
+function mkDN(data,cls=''){const w=document.createElement('div');w.className='dnode pop';const b=document.createElement('div');b.className='db'+(cls?' '+cls:'');const pv=document.createElement('div');pv.className='dpv';pv.textContent='←';const d=document.createElement('div');d.className='dd';d.textContent=data;const nx=document.createElement('div');nx.className='dnx';nx.textContent='→';b.appendChild(pv);b.appendChild(d);b.appendChild(nx);w.appendChild(b);return w;}
+function rDList(hl=-1,nv=null){const viz=document.getElementById('dl-viz');viz.innerHTML='';if(!DL.length){const e=document.createElement('span');e.className='empty';e.textContent='（空雙向串列）';viz.appendChild(e);return;}const row=document.createElement('div');row.className='drow';const lbl=document.createElement('span');lbl.className='ddlbl';lbl.textContent='正向:';row.appendChild(lbl);row.appendChild(mkDN('head','hdr'));let mk=false;DL.forEach(v=>{const a=document.createElement('span');a.className='darr';a.textContent='⇔';row.appendChild(a);let cls='';if(v===nv&&!mk){cls='nw';mk=true;}if(v===hl)cls='tgt';row.appendChild(mkDN(v,cls));});const ea=document.createElement('span');ea.className='darr';ea.textContent='⇔';row.appendChild(ea);row.appendChild(mkDN('head','hdr'));viz.appendChild(row);}
+function dInsFirst(){const v=+document.getElementById('d-iv').value;if(isNaN(v))return;DL.unshift(v);rDList(-1,v);log('dl-log',`DInsertFirst(${v}) → ${dStr(DL)}`,'ok');}
+function dInsLast(){const v=+document.getElementById('d-iv').value;if(isNaN(v))return;DL.push(v);rDList(-1,v);log('dl-log',`DInsertLast(${v}) → ${dStr(DL)}`,'ok');}
+function dInsAfter(){const t=+document.getElementById('d-tv').value,v=+document.getElementById('d-av').value;if(isNaN(t)||isNaN(v))return;const i=DL.indexOf(t);if(i<0){log('dl-log',`DSearch(${t}): not found`,'err');return;}log('dl-log',`DSearch(${t}): found`,'info');DL.splice(i+1,0,v);rDList(t,v);log('dl-log',`DInsertAfter ${t} → ${dStr(DL)}`,'ok');}
+function dSearch(){const t=+document.getElementById('d-dv').value;if(isNaN(t))return;const i=DL.indexOf(t);if(i<0){rDList();log('dl-log',`DSearch(${t}): not found`,'err');}else{rDList(t);log('dl-log',`DSearch(${t}): found`,'ok');}}
+function dDel(){const t=+document.getElementById('d-dv').value;if(isNaN(t))return;const i=DL.indexOf(t);if(i<0){log('dl-log',`DDelete(${t}): not found`,'err');return;}DL.splice(i,1);rDList();log('dl-log',`DDelete(${t}): removed → ${dStr(DL)}`,'warn');}
+function dInvert(){if(!DL.length){log('dl-log','InvertDList: list is empty','warn');return;}DL.reverse();rDList();log('dl-log',`InvertDList → ${dStr(DL)}`,'ok');}
+function dClear(){DL=[];rDList();log('dl-log','DClearList: all nodes removed','warn');}
+// ========== QUEUE ==========
+function qStr(a){return a.length?'qhead → [H] → '+a.join(' → ')+' → NULL':'qhead → [H] → NULL';}
+function rQueue(nv=null,deq=false){const viz=document.getElementById('q-viz');viz.innerHTML='';const hw=document.createElement('div');hw.className='qnode pop';const hb=document.createElement('div');hb.className='qb hdr';const hd=document.createElement('div');hd.className='qd';hd.textContent='H';const hp=document.createElement('div');hp.className='qp';hp.textContent='→';hb.appendChild(hd);hb.appendChild(hp);hw.appendChild(hb);const hl=document.createElement('div');hl.className='qlbl hdr';hl.textContent='qhead';hw.appendChild(hl);viz.appendChild(hw);if(!Q.length){const a=document.createElement('span');a.className='qarr';a.textContent='→';viz.appendChild(a);const nll=document.createElement('span');nll.style.cssText='font-family:var(--mono);font-size:var(--xs);color:var(--faint);margin-top:22px;padding:0 4px';nll.textContent='NULL';viz.appendChild(nll);return;}let mk=false;Q.forEach((v,i)=>{const a=document.createElement('span');a.className='qarr';a.textContent='→';viz.appendChild(a);const isFront=i===0,isRear=i===Q.length-1;const w=document.createElement('div');w.className='qnode pop';const b=document.createElement('div');let cls='';if(v===nv&&!mk){cls='nw';mk=true;}else if(isRear)cls='rear';else if(isFront)cls='front';b.className='qb'+(cls?' '+cls:'');const dd=document.createElement('div');dd.className='qd';dd.textContent=v;const pp=document.createElement('div');pp.className='qp';pp.textContent=isRear?'NULL':'→';b.appendChild(dd);b.appendChild(pp);w.appendChild(b);const lbl=document.createElement('div');lbl.className='qlbl'+(isFront?' front':isRear?' rear':'');lbl.textContent=isFront&&isRear?'front / rear':isFront?'front':isRear?'qrear':'';w.appendChild(lbl);viz.appendChild(w);});}
+function qEnq(){const v=+document.getElementById('q-v').value;if(isNaN(v))return;Q.push(v);rQueue(v);log('q-log',`InsertQ(${v}) — enqueued at rear → ${qStr(Q)}`,'ok');}
+function qDeq(){if(!Q.length){log('q-log','DeleteQ: queue is empty','err');return;}const it=Q.shift();rQueue();log('q-log',`DeleteQ → dequeued from front: ${it} → ${qStr(Q)}`,'warn');}
+function qPrint(){rQueue();log('q-log',`PrintQueue → ${qStr(Q)}`,'info');}
+function qRand(){const n=+document.getElementById('q-rn').value,lo=+document.getElementById('q-rl').value,hi=+document.getElementById('q-rh').value;if(isNaN(n)||isNaN(lo)||isNaN(hi)||lo>hi){log('q-log','Random enqueue: invalid range','err');return;}const ins=[];for(let i=0;i<n;i++){const v=Math.floor(Math.random()*(hi-lo+1))+lo;Q.push(v);ins.push(v);}rQueue();log('q-log',`Random enqueue(${n}, ${lo}~${hi}): [${ins.join(', ')}]`,'info');log('q-log',qStr(Q),'ok');}
+// init
+rSingly();log('singly-log','Initialized — header node ready, circular list starts empty','info');
+rStack();log('st-log','Initialized — linked stack ready, top = NULL','info');
+rDList();log('dl-log','Initialized — doubly linked list ready, dhead set up','info');
+rQueue();log('q-log','Initialized — linked queue ready, qhead = empty header, qrear = qhead','info');
 </script>
 </body>
 </html>
