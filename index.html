@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +19,7 @@
   --err:#a12c7b;--err-hl:#e8d0e0;
   --purple:#5a3e8a;--purple-hl:#ddd6f0;
   --teal:#0e7490;--teal-hl:#cce8ed;
+  --undo:#5c5855;--undo-hl:#e8e6e2;
   --r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-full:9999px;
   --sh-sm:0 1px 3px rgba(0,0,0,.07);--sh-md:0 4px 14px rgba(0,0,0,.09);
   --tr:180ms cubic-bezier(.16,1,.3,1);
@@ -46,8 +47,9 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .page{display:none}
 .page.active{display:grid;gap:var(--s6)}
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--sh-sm);overflow:hidden}
-.ph{padding:var(--s4) var(--s6);border-bottom:1px solid var(--border);background:var(--offset);display:flex;align-items:center;gap:var(--s3)}
+.ph{padding:var(--s4) var(--s6);border-bottom:1px solid var(--border);background:var(--offset);display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap}
 .ph h2{font-size:var(--base);font-weight:600;letter-spacing:-.01em}
+.ph-undo{margin-left:auto}
 .pb{padding:var(--s6)}
 /* viz */
 .viz{min-height:130px;display:flex;align-items:center;padding:var(--s4) var(--s6);overflow-x:auto;flex-wrap:nowrap;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -68,9 +70,9 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .le{display:flex;gap:var(--s3);align-items:flex-start}
 .lt{color:var(--faint);flex-shrink:0;font-size:10px;padding-top:2px}
 .lm{color:var(--muted);line-height:1.5}
-.lm.ok{color:var(--ok)}.lm.err{color:var(--err)}.lm.info{color:var(--accent)}.lm.warn{color:var(--warn)}
+.lm.ok{color:var(--ok)}.lm.err{color:var(--err)}.lm.info{color:var(--accent)}.lm.warn{color:var(--warn)}.lm.undo{color:var(--undo)}
 /* controls */
-.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:var(--s4);padding:var(--s6)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:var(--s4);padding:var(--s6)}
 .cg{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
 .cgh{padding:var(--s3) var(--s4);background:var(--offset);border-bottom:1px solid var(--border);font-size:var(--xs);font-weight:600;color:var(--muted);display:flex;align-items:center;gap:var(--s2)}
 .cgb{padding:var(--s4);display:flex;flex-direction:column;gap:var(--s3)}
@@ -89,6 +91,9 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .btn.amber:hover{background:color-mix(in oklch,var(--warn) 80%,#000)}
 .btn.teal{background:var(--teal);color:#fff}
 .btn.teal:hover{background:color-mix(in oklch,var(--teal) 80%,#000)}
+.btn.undo{background:var(--undo-hl);color:var(--undo);border:1px solid var(--border);display:flex;align-items:center;gap:5px;font-size:var(--xs)}
+.btn.undo:hover{background:var(--dynamic);color:var(--text)}
+.btn.undo:disabled{opacity:.35;cursor:not-allowed;transform:none}
 /* stack */
 .stwrap{display:flex;gap:var(--s6);align-items:flex-start;padding:var(--s4) var(--s6);background:var(--bg);border-bottom:1px solid var(--border);min-height:130px}
 .stcol{display:flex;flex-direction:column;align-items:center;gap:var(--s2)}
@@ -139,7 +144,6 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 .tq{background:var(--teal-hl);color:var(--teal)}
 .ta{background:var(--purple-hl);color:var(--purple)}
 .badge{display:inline-flex;padding:2px 7px;border-radius:var(--r-full);font-size:10px;font-weight:700;background:var(--ok-hl);color:var(--ok)}
-/* structure panels */
 .twocol{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
 @keyframes slide-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .fade{animation:slide-up .4s cubic-bezier(.16,1,.3,1) both}
@@ -172,12 +176,16 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 </header>
 <main>
 
-<!-- SINGLY -->
+<!-- ══════════════ SINGLY ══════════════ -->
 <div class="page active fade" id="page-singly">
   <div class="panel">
     <div class="ph">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>
       <h2>Singly circular list <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— header node + last pointer</span></h2>
+      <button class="btn undo ph-undo" id="s-undo" onclick="sUndo()" disabled>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+        Undo last step
+      </button>
     </div>
     <div class="viz" id="singly-viz"></div>
     <div class="log" id="singly-log"></div>
@@ -186,50 +194,65 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
     <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
     <div class="cgrid">
       <div class="cg">
-        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert</div>
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert node</div>
         <div class="cgb">
           <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="s-iv" value="10"></div>
-          <div class="crow"><button class="btn" onclick="sInsFirst()">InsertFirst</button><button class="btn sec" onclick="sInsLast()">InsertLast</button></div>
+          <div class="crow">
+            <button class="btn" onclick="sInsFirst()">Insert at front</button>
+            <button class="btn sec" onclick="sInsLast()">Insert at back</button>
+          </div>
         </div>
       </div>
       <div class="cg">
-        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; insert</div>
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; insert relative</div>
         <div class="cgb">
-          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-tv" value="10"><span class="fl">Value</span><input type="number" class="ni" id="s-fv" value="99"></div>
-          <div class="crow"><button class="btn" onclick="sInsAfter()">InsertAfter</button><button class="btn sec" onclick="sInsBefore()">InsertBefore</button></div>
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-tv" value="10"><span class="fl">New value</span><input type="number" class="ni" id="s-fv" value="99"></div>
+          <div class="crow">
+            <button class="btn" onclick="sInsAfter()">Insert after target</button>
+            <button class="btn sec" onclick="sInsBefore()">Insert before target</button>
+          </div>
         </div>
       </div>
       <div class="cg">
-        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; delete</div>
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search &amp; delete</div>
         <div class="cgb">
-          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-dv" value="10"><button class="btn red" onclick="sDel()">DeleteTarget</button></div>
-          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-sv" value="10"><button class="btn sec" onclick="sFind()">FindTarget</button></div>
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-sv" value="10"><button class="btn sec" onclick="sFind()">Search for value</button></div>
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="s-dv" value="10"><button class="btn red" onclick="sDel()">Delete node</button></div>
         </div>
       </div>
       <div class="cg">
-        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/></svg>Random insert</div>
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/></svg>Random fill</div>
         <div class="cgb">
-          <div class="crow"><span class="fl">n</span><input type="number" class="ni" id="s-rn" value="5" min="1" max="20"><span class="fl">Low</span><input type="number" class="ni" id="s-rl" value="1"><span class="fl">High</span><input type="number" class="ni" id="s-rh" value="50"></div>
-          <div class="crow"><button class="btn" onclick="sRand()">RandomInsert</button></div>
+          <div class="crow"><span class="fl">Count</span><input type="number" class="ni" id="s-rn" value="5" min="1" max="20"><span class="fl">Low</span><input type="number" class="ni" id="s-rl" value="1"><span class="fl">High</span><input type="number" class="ni" id="s-rh" value="50"></div>
+          <div class="crow"><button class="btn" onclick="sRand()">Insert random nodes</button></div>
         </div>
       </div>
       <div class="cg">
         <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg>Print &amp; invert</div>
         <div class="cgb">
-          <div class="crow"><button class="btn sec" onclick="sPrint()">PrintList</button><button class="btn amber" onclick="sInvert()">InvertList</button><button class="btn red" onclick="sClear()">ClearList</button></div>
+          <div class="crow">
+            <button class="btn sec" onclick="sPrint()">Print list</button>
+            <button class="btn amber" onclick="sInvert()">Reverse list</button>
+            <button class="btn red" onclick="sClear()">Clear all nodes</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- STACK -->
+<!-- ══════════════ STACK ══════════════ -->
 <div class="page fade" id="page-stack">
   <div class="panel">
-    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><rect x="2" y="20" width="20" height="2" rx="1"/><rect x="4" y="14" width="16" height="5" rx="1"/><rect x="4" y="8" width="16" height="5" rx="1"/><rect x="4" y="2" width="16" height="5" rx="1"/></svg>
+    <div class="ph">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><rect x="2" y="20" width="20" height="2" rx="1"/><rect x="4" y="14" width="16" height="5" rx="1"/><rect x="4" y="8" width="16" height="5" rx="1"/><rect x="4" y="2" width="16" height="5" rx="1"/></svg>
       <h2>Linked stack <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— LIFO · linked nodes</span></h2>
+      <button class="btn undo ph-undo" id="st-undo" onclick="stUndo()" disabled>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+        Undo last step
+      </button>
     </div>
-    <div class="stwrap"><div class="stcol"><div class="stlbl">Stack (top → bottom)</div><div class="stnodes" id="st-nodes"><span class="stempty">（空堆疊）</span></div></div></div>
+    <div class="stwrap"><div class="stcol"><div class="stlbl">Stack (top → bottom)</div><div class="stnodes" id="st-nodes"><span class="stempty">(empty stack)</span></div></div></div>
     <div class="log" id="st-log"></div>
   </div>
   <div class="panel">
@@ -238,59 +261,82 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
       <div class="cg">
         <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 11 12 6 7 11"/><line x1="12" y1="18" x2="12" y2="6"/></svg>Push / pop / peek</div>
         <div class="cgb">
-          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="st-v" value="42"><button class="btn" onclick="stPush()">Push</button></div>
-          <div class="crow"><button class="btn red" onclick="stPop()">Pop</button><button class="btn sec" onclick="stPeek()">Peek</button><button class="btn sec" onclick="stPrint()">PrintStack</button></div>
+          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="st-v" value="42"><button class="btn" onclick="stPush()">Push onto stack</button></div>
+          <div class="crow">
+            <button class="btn red" onclick="stPop()">Pop from stack</button>
+            <button class="btn sec" onclick="stPeek()">Peek at top</button>
+            <button class="btn sec" onclick="stPrint()">Print stack</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- DOUBLY -->
+<!-- ══════════════ DOUBLY ══════════════ -->
 <div class="page fade" id="page-doubly">
   <div class="panel">
-    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+    <div class="ph">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
       <h2>Doubly linked list <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— header node · prev &amp; next</span></h2>
+      <button class="btn undo ph-undo" id="d-undo" onclick="dUndo()" disabled>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+        Undo last step
+      </button>
     </div>
-    <div class="dviz" id="dl-viz"><span class="empty">（空雙向串列）</span></div>
+    <div class="dviz" id="dl-viz"><span class="empty">(empty doubly linked list)</span></div>
     <div class="log" id="dl-log"></div>
   </div>
   <div class="panel">
     <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>Operations</h2></div>
     <div class="cgrid">
       <div class="cg">
-        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert</div>
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert node</div>
         <div class="cgb">
           <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="d-iv" value="10"></div>
-          <div class="crow"><button class="btn" onclick="dInsFirst()">DInsertFirst</button><button class="btn sec" onclick="dInsLast()">DInsertLast</button></div>
+          <div class="crow">
+            <button class="btn" onclick="dInsFirst()">Insert at front</button>
+            <button class="btn sec" onclick="dInsLast()">Insert at back</button>
+          </div>
         </div>
       </div>
       <div class="cg">
         <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Find &amp; insert after</div>
         <div class="cgb">
-          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="d-tv" value="10"><span class="fl">Value</span><input type="number" class="ni" id="d-av" value="99"></div>
-          <div class="crow"><button class="btn" onclick="dInsAfter()">DInsertAfter</button></div>
+          <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="d-tv" value="10"><span class="fl">New value</span><input type="number" class="ni" id="d-av" value="99"></div>
+          <div class="crow"><button class="btn" onclick="dInsAfter()">Insert after target</button></div>
         </div>
       </div>
       <div class="cg">
         <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search, delete &amp; invert</div>
         <div class="cgb">
           <div class="crow"><span class="fl">Target</span><input type="number" class="ni" id="d-dv" value="10"></div>
-          <div class="crow"><button class="btn sec" onclick="dSearch()">DSearch</button><button class="btn red" onclick="dDel()">DDelete</button></div>
-          <div class="crow"><button class="btn amber" onclick="dInvert()">InvertDList</button><button class="btn red" onclick="dClear()">DClearList</button></div>
+          <div class="crow">
+            <button class="btn sec" onclick="dSearch()">Search for value</button>
+            <button class="btn red" onclick="dDel()">Delete node</button>
+          </div>
+          <div class="crow">
+            <button class="btn amber" onclick="dInvert()">Reverse list</button>
+            <button class="btn red" onclick="dClear()">Clear all nodes</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- QUEUE -->
+<!-- ══════════════ QUEUE ══════════════ -->
 <div class="page fade" id="page-queue">
   <div class="panel">
-    <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><polyline points="17 8 21 12 17 16"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="3" y2="18"/></svg>
-      <h2>Linked queue <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— FIFO · empty header node · qrear pointer</span></h2>
+    <div class="ph">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><polyline points="17 8 21 12 17 16"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="3" y2="18"/></svg>
+      <h2>Linked queue <span style="font-size:var(--xs);color:var(--muted);font-family:var(--mono);font-weight:400">— FIFO · empty header node · rear pointer</span></h2>
+      <button class="btn undo ph-undo" id="q-undo" onclick="qUndo()" disabled>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+        Undo last step
+      </button>
     </div>
-    <div class="qviz" id="q-viz"><span class="empty">（空佇列）</span></div>
+    <div class="qviz" id="q-viz"><span class="empty">(empty queue)</span></div>
     <div class="log" id="q-log"></div>
   </div>
   <div class="panel">
@@ -299,66 +345,69 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
       <div class="cg">
         <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 8 21 12 17 16"/><line x1="3" y1="12" x2="21" y2="12"/></svg>Enqueue / dequeue</div>
         <div class="cgb">
-          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="q-v" value="10"><button class="btn teal" onclick="qEnq()">InsertQ (enqueue)</button></div>
-          <div class="crow"><button class="btn red" onclick="qDeq()">DeleteQ (dequeue)</button><button class="btn sec" onclick="qPrint()">PrintQueue</button></div>
+          <div class="crow"><span class="fl">Value</span><input type="number" class="ni" id="q-v" value="10"><button class="btn teal" onclick="qEnq()">Enqueue (insert at rear)</button></div>
+          <div class="crow">
+            <button class="btn red" onclick="qDeq()">Dequeue (remove from front)</button>
+            <button class="btn sec" onclick="qPrint()">Print queue</button>
+          </div>
         </div>
       </div>
       <div class="cg">
-        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/></svg>Random enqueue</div>
+        <div class="cgh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/></svg>Random fill</div>
         <div class="cgb">
-          <div class="crow"><span class="fl">n</span><input type="number" class="ni" id="q-rn" value="4" min="1" max="15"><span class="fl">Low</span><input type="number" class="ni" id="q-rl" value="1"><span class="fl">High</span><input type="number" class="ni" id="q-rh" value="50"></div>
-          <div class="crow"><button class="btn teal" onclick="qRand()">Random enqueue</button></div>
+          <div class="crow"><span class="fl">Count</span><input type="number" class="ni" id="q-rn" value="4" min="1" max="15"><span class="fl">Low</span><input type="number" class="ni" id="q-rl" value="1"><span class="fl">High</span><input type="number" class="ni" id="q-rh" value="50"></div>
+          <div class="crow"><button class="btn teal" onclick="qRand()">Enqueue random nodes</button></div>
         </div>
       </div>
     </div>
   </div>
   <div class="panel">
     <div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h2>Queue structure</h2></div>
-    <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.9;font-family:var(--mono)">qhead → [H|•] → [front|•] → [n₂|•] → ··· → [rear|NULL]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ Front (dequeue)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ qrear (enqueue)<br><br><span style="color:var(--warn)">H</span> = empty header node (dummy, data=0)<br><span style="color:var(--teal)">Front</span> = qhead→next = 下一個出隊節點<br><span style="color:var(--purple)">qrear</span> = 指向隊尾，enqueue 在此接新節點<br>FIFO: 從 front 出隊，從 rear 入隊</p></div>
+    <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.9;font-family:var(--mono)">qhead → [H|•] → [front|•] → [n₂|•] → ··· → [rear|NULL]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ Front (dequeue here)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ Rear (enqueue here)<br><br><span style="color:var(--warn)">H</span> = empty header node (dummy, data = 0)<br><span style="color:var(--teal)">Front</span> = qhead→next, the next node to be dequeued<br><span style="color:var(--purple)">Rear</span> = pointer to the tail node; new nodes are appended here<br>FIFO: elements leave from the front, enter from the rear</p></div>
   </div>
 </div>
 
-<!-- REFERENCE -->
+<!-- ══════════════ REFERENCE ══════════════ -->
 <div class="page fade" id="page-ref">
   <div class="panel">
     <div class="ph"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h2>All operations — quick reference</h2></div>
     <div class="pb" style="padding:0;overflow-x:auto">
       <table class="rtbl">
-        <thead><tr><th>#</th><th>Function</th><th>Type</th><th>Description</th><th>Time</th></tr></thead>
+        <thead><tr><th>#</th><th>Function name</th><th>Type</th><th>What it does</th><th>Time</th></tr></thead>
         <tbody>
-          <tr><td>0</td><td><code>InitList()</code></td><td><span class="tag ts">Singly</span></td><td>建立 header node，初始化環狀串列</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>1</td><td><code>PrintList()</code></td><td><span class="tag ts">Singly</span></td><td>依序印出所有元素（不含 header node）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>2.1</td><td><code>InsertFirst(e)</code></td><td><span class="tag ts">Singly</span></td><td>在 header node 後插入，成為第一個元素</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>2.2</td><td><code>InsertLast(e)</code></td><td><span class="tag ts">Singly</span></td><td>利用 last 指標直接在末端插入</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>3.1</td><td><code>FindTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>搜尋 target，印出找到 / 找不到訊息</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.2</td><td><code>FindInsertAfter(t,e)</code></td><td><span class="tag ts">Singly</span></td><td>找到 target 後在其後插入 element</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.3</td><td><code>FindInsertBefore(t,e)</code></td><td><span class="tag ts">Singly</span></td><td>找到 target 後在其前插入（需追蹤前一節點）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>3.4</td><td><code>DeleteTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>找到 target 並刪除，更新 last 指標</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>4</td><td><code>RandomInsert(n,lo,hi)</code></td><td><span class="tag ts">Singly</span></td><td>插入 n 個 [lo,hi] 範圍亂數節點至末端</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>5</td><td><code>ClearList()</code></td><td><span class="tag ts">Singly</span></td><td>清除所有節點，歸還記憶空間（保留 header）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>C.1</td><td><code>InvertList()</code></td><td><span class="tag ta">Advanced</span></td><td>原地反轉單向環狀串列（三指標法：r, s, t）</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>B</td><td><code>Push(e)</code></td><td><span class="tag tst">Stack</span></td><td>壓入新節點至堆疊頂端</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>B</td><td><code>Pop()</code></td><td><span class="tag tst">Stack</span></td><td>彈出頂端節點並歸還記憶空間</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>B</td><td><code>Peek()</code></td><td><span class="tag tst">Stack</span></td><td>查看堆疊頂端資料（不彈出）</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>C</td><td><code>InsertQ(e)</code></td><td><span class="tag tq">Queue</span></td><td>在 qrear 後接新節點（enqueue），更新 qrear</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>C</td><td><code>DeleteQ()</code></td><td><span class="tag tq">Queue</span></td><td>移除 qhead→next（front）節點（dequeue）</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.1</td><td><code>DInsertFirst(e)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：在 dhead 後插入</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.2</td><td><code>DInsertLast(e)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：在 dhead.prev 後插入</td><td><span class="badge">O(1)</span></td></tr>
-          <tr><td>D.3</td><td><code>DInsertAfter(t,e)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：找到 target 後插入</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.4</td><td><code>DDeleteTarget(t)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：找到並刪除 target</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.5</td><td><code>SearchHDList(t)</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：搜尋 target</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>D.6</td><td><code>DClearList()</code></td><td><span class="tag td">Doubly</span></td><td>雙向串列：清除所有節點</td><td><span class="badge">O(n)</span></td></tr>
-          <tr><td>C.2</td><td><code>InvertDList()</code></td><td><span class="tag ta">Advanced</span></td><td>交換所有節點的 prev/next 指標以反轉雙向串列</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>0</td><td><code>InitList()</code></td><td><span class="tag ts">Singly</span></td><td>Create the header node and initialise the circular list</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>1</td><td><code>PrintList()</code></td><td><span class="tag ts">Singly</span></td><td>Print every element in order (excluding the header)</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>2.1</td><td><code>InsertFirst(e)</code></td><td><span class="tag ts">Singly</span></td><td>Insert a new node right after the header (becomes first)</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>2.2</td><td><code>InsertLast(e)</code></td><td><span class="tag ts">Singly</span></td><td>Append a new node at the tail using the last pointer</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>3.1</td><td><code>FindTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>Search for a value and report whether it was found</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>3.2</td><td><code>FindInsertAfter(t, e)</code></td><td><span class="tag ts">Singly</span></td><td>Find a target value, then insert a new node directly after it</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>3.3</td><td><code>FindInsertBefore(t, e)</code></td><td><span class="tag ts">Singly</span></td><td>Find a target value, then insert a new node just before it</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>3.4</td><td><code>DeleteTarget(t)</code></td><td><span class="tag ts">Singly</span></td><td>Locate and remove a node; update the last pointer if needed</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>4</td><td><code>RandomInsert(n, lo, hi)</code></td><td><span class="tag ts">Singly</span></td><td>Append n nodes with random values in the range [lo, hi]</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>5</td><td><code>ClearList()</code></td><td><span class="tag ts">Singly</span></td><td>Free all nodes and reset the list (header node is kept)</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>C.1</td><td><code>InvertList()</code></td><td><span class="tag ta">Advanced</span></td><td>Reverse the singly circular list in-place using three pointers (r, s, t)</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>B</td><td><code>Push(e)</code></td><td><span class="tag tst">Stack</span></td><td>Push a new node onto the top of the stack</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>B</td><td><code>Pop()</code></td><td><span class="tag tst">Stack</span></td><td>Remove and free the top node, return its value</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>B</td><td><code>Peek()</code></td><td><span class="tag tst">Stack</span></td><td>Read the top value without removing it</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>C</td><td><code>InsertQ(e)</code></td><td><span class="tag tq">Queue</span></td><td>Append a new node at the rear (enqueue); update the rear pointer</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>C</td><td><code>DeleteQ()</code></td><td><span class="tag tq">Queue</span></td><td>Remove the front node (dequeue); the node after the header leaves first</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>D.1</td><td><code>DInsertFirst(e)</code></td><td><span class="tag td">Doubly</span></td><td>Insert a new node immediately after the header node</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>D.2</td><td><code>DInsertLast(e)</code></td><td><span class="tag td">Doubly</span></td><td>Insert a new node before the header (at the tail) via dhead.prev</td><td><span class="badge">O(1)</span></td></tr>
+          <tr><td>D.3</td><td><code>DInsertAfter(t, e)</code></td><td><span class="tag td">Doubly</span></td><td>Find a target node, then insert a new node after it</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>D.4</td><td><code>DDeleteTarget(t)</code></td><td><span class="tag td">Doubly</span></td><td>Find and remove a target node, re-linking prev and next pointers</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>D.5</td><td><code>SearchHDList(t)</code></td><td><span class="tag td">Doubly</span></td><td>Traverse the doubly linked list to search for a target value</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>D.6</td><td><code>DClearList()</code></td><td><span class="tag td">Doubly</span></td><td>Free all nodes in the doubly linked list (header node is kept)</td><td><span class="badge">O(n)</span></td></tr>
+          <tr><td>C.2</td><td><code>InvertDList()</code></td><td><span class="tag ta">Advanced</span></td><td>Reverse the doubly linked list by swapping every node's prev and next pointers</td><td><span class="badge">O(n)</span></td></tr>
         </tbody>
       </table>
     </div>
   </div>
   <div class="twocol">
     <div class="panel"><div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h2>Singly circular — structure</h2></div>
-      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">head → [H|•] → [n₁|•] → [n₂|•] → ··· → [nₖ|•] ↩<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>last ──────────────────────────────────────────┘<br><br><span style="color:var(--warn)">H</span> = header node (dummy, data=0)<br><span style="color:var(--accent)">last</span> = pointer to tail node<br>Last node's next → head (circular)</p></div>
+      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">head → [H|•] → [n₁|•] → [n₂|•] → ··· → [nₖ|•] ↩<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>last ──────────────────────────────────────────┘<br><br><span style="color:var(--warn)">H</span> = header node (dummy, data = 0)<br><span style="color:var(--accent)">last</span> = pointer to the tail node<br>The tail node's next points back to head (circular)</p></div>
     </div>
     <div class="panel"><div class="ph"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><h2>Doubly linked — structure</h2></div>
-      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev<br>dhead ⇔ [•|n₁|•] ⇔ [•|n₂|•] ⇔ ··· ⇔ dhead<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →<br><br><span style="color:var(--warn)">dhead</span> = header node (circular doubly)<br>Each node has <span style="color:var(--accent)">prev</span> and <span style="color:var(--primary)">next</span> pointers<br>dhead.prev → last node (O(1) tail insert)</p></div>
+      <div class="pb"><p style="font-size:var(--xs);color:var(--muted);line-height:1.8;font-family:var(--mono)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← prev<br>dhead ⇔ [•|n₁|•] ⇔ [•|n₂|•] ⇔ ··· ⇔ dhead<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next →<br><br><span style="color:var(--warn)">dhead</span> = header node (circular doubly linked)<br>Each node carries both a <span style="color:var(--accent)">prev</span> and a <span style="color:var(--primary)">next</span> pointer<br>dhead.prev points to the last node (O(1) tail insert)</p></div>
     </div>
   </div>
 </div>
@@ -366,59 +415,284 @@ main{display:grid;gap:var(--s6);padding:var(--s8) var(--s6);max-width:1200px;mar
 </main>
 </div>
 <script>
-let SL=[],ST=[],DL=[],Q=[];
-// tab routing
+// ── state + undo stacks ──────────────────────────────────────────
+let SL=[], SL_hist=[];
+let ST=[], ST_hist=[];
+let DL=[], DL_hist=[];
+let Q=[],  Q_hist=[];
+
+function saveS(){ SL_hist.push([...SL]); document.getElementById('s-undo').disabled=false; }
+function saveST(){ ST_hist.push([...ST]); document.getElementById('st-undo').disabled=false; }
+function saveD(){ DL_hist.push([...DL]); document.getElementById('d-undo').disabled=false; }
+function saveQ(){ Q_hist.push([...Q]);  document.getElementById('q-undo').disabled=false; }
+
+function sUndo(){
+  if(!SL_hist.length)return;
+  SL=SL_hist.pop(); rSingly();
+  log('singly-log','↩ Undo — list restored to previous state','undo');
+  if(!SL_hist.length) document.getElementById('s-undo').disabled=true;
+}
+function stUndo(){
+  if(!ST_hist.length)return;
+  ST=ST_hist.pop(); rStack();
+  log('st-log','↩ Undo — stack restored to previous state','undo');
+  if(!ST_hist.length) document.getElementById('st-undo').disabled=true;
+}
+function dUndo(){
+  if(!DL_hist.length)return;
+  DL=DL_hist.pop(); rDList();
+  log('dl-log','↩ Undo — list restored to previous state','undo');
+  if(!DL_hist.length) document.getElementById('d-undo').disabled=true;
+}
+function qUndo(){
+  if(!Q_hist.length)return;
+  Q=Q_hist.pop(); rQueue();
+  log('q-log','↩ Undo — queue restored to previous state','undo');
+  if(!Q_hist.length) document.getElementById('q-undo').disabled=true;
+}
+
+// ── tab routing ──────────────────────────────────────────────────
 document.querySelectorAll('.tab').forEach(b=>{b.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+b.dataset.tab).classList.add('active');
 });});
-// log
-function log(id,msg,t='info'){const a=document.getElementById(id);const e=document.createElement('div');e.className='le';const n=new Date();const ts=n.toTimeString().slice(0,8);e.innerHTML=`<span class="lt">${ts}</span><span class="lm ${t}">${msg}</span>`;a.appendChild(e);a.scrollTop=a.scrollHeight;}
-// ========== SINGLY ==========
+
+// ── log ──────────────────────────────────────────────────────────
+function log(id,msg,t='info'){
+  const a=document.getElementById(id);
+  const e=document.createElement('div'); e.className='le';
+  const ts=new Date().toTimeString().slice(0,8);
+  e.innerHTML=`<span class="lt">${ts}</span><span class="lm ${t}">${msg}</span>`;
+  a.appendChild(e); a.scrollTop=a.scrollHeight;
+}
+
+// ══════════════ SINGLY ══════════════════════════════════════════
 function sStr(a){return a.length?'head → '+a.join(' → ')+' →(head)':'(empty)';}
-function mkVN(data,ptr,cls='',lbl=''){const w=document.createElement('div');w.className='vn pop';const b=document.createElement('div');b.className='vb'+(cls?' '+cls:'');const d=document.createElement('div');d.className='vd';d.textContent=data;const p=document.createElement('div');p.className='vp';p.textContent=ptr;b.appendChild(d);b.appendChild(p);w.appendChild(b);if(lbl){const l=document.createElement('div');l.className='vlbl'+(lbl==='last'?' last':'');l.textContent=lbl;}return w;}
-function rSingly(hl=-1,nv=null){const viz=document.getElementById('singly-viz');viz.innerHTML='';viz.appendChild(mkVN('H','→','hdr','header'));if(!SL.length){const a=document.createElement('span');a.className='arr circ';a.textContent='↩';viz.appendChild(a);return;}let mk=false;SL.forEach((v,i)=>{const a=document.createElement('span');a.className='arr';a.textContent='→';viz.appendChild(a);let cls='';if(v===nv&&!mk){cls='nw';mk=true;}if(v===hl)cls='tgt';const isL=i===SL.length-1;const w=document.createElement('div');w.className='vn pop';const b=document.createElement('div');b.className='vb'+(cls?' '+cls:'');const dd=document.createElement('div');dd.className='vd';dd.textContent=v;const pp=document.createElement('div');pp.className='vp';pp.textContent=isL?'↩':'→';b.appendChild(dd);b.appendChild(pp);w.appendChild(b);if(isL){const l=document.createElement('div');l.className='vlbl last';l.textContent='last';w.appendChild(l);}viz.appendChild(w);});}
-function sInsFirst(){const v=+document.getElementById('s-iv').value;if(isNaN(v))return;SL.unshift(v);rSingly(-1,v);log('singly-log',`InsertFirst(${v}) → ${sStr(SL)}`,'ok');}
-function sInsLast(){const v=+document.getElementById('s-iv').value;if(isNaN(v))return;SL.push(v);rSingly(-1,v);log('singly-log',`InsertLast(${v}) → ${sStr(SL)}`,'ok');}
-function sInsAfter(){const t=+document.getElementById('s-tv').value,v=+document.getElementById('s-fv').value;if(isNaN(t)||isNaN(v))return;const i=SL.indexOf(t);if(i<0){log('singly-log',`FindTarget(${t}): not found`,'err');return;}log('singly-log',`FindTarget(${t}): found`,'info');SL.splice(i+1,0,v);rSingly(t);log('singly-log',`InsertAfter ${t} → ${sStr(SL)}`,'ok');}
-function sInsBefore(){const t=+document.getElementById('s-tv').value,v=+document.getElementById('s-fv').value;if(isNaN(t)||isNaN(v))return;const i=SL.indexOf(t);if(i<0){log('singly-log',`FindTarget(${t}): not found`,'err');return;}log('singly-log',`FindTarget(${t}): found`,'info');SL.splice(i,0,v);rSingly(t);log('singly-log',`InsertBefore ${t} → ${sStr(SL)}`,'ok');}
-function sDel(){const t=+document.getElementById('s-dv').value;if(isNaN(t))return;const i=SL.indexOf(t);if(i<0){log('singly-log',`DeleteTarget(${t}): not found`,'err');return;}SL.splice(i,1);rSingly();log('singly-log',`DeleteTarget(${t}): removed → ${sStr(SL)}`,'warn');}
-function sFind(){const t=+document.getElementById('s-sv').value;if(isNaN(t))return;const i=SL.indexOf(t);if(i<0){rSingly();log('singly-log',`FindTarget(${t}): not found`,'err');}else{rSingly(t);log('singly-log',`FindTarget(${t}): found`,'ok');}}
-function sRand(){const n=+document.getElementById('s-rn').value,lo=+document.getElementById('s-rl').value,hi=+document.getElementById('s-rh').value;if(isNaN(n)||isNaN(lo)||isNaN(hi)||lo>hi){log('singly-log','Random insert: invalid range','err');return;}const ins=[];for(let i=0;i<n;i++){const v=Math.floor(Math.random()*(hi-lo+1))+lo;SL.push(v);ins.push(v);}rSingly();log('singly-log',`RandomInsert(${n}, ${lo}~${hi}): [${ins.join(', ')}]`,'info');log('singly-log',sStr(SL),'ok');}
-function sPrint(){rSingly();log('singly-log',`PrintList → ${sStr(SL)}`,'info');}
-function sInvert(){if(!SL.length){log('singly-log','InvertList: list is empty','warn');return;}SL.reverse();rSingly();log('singly-log',`InvertList → ${sStr(SL)}`,'ok');}
-function sClear(){SL=[];rSingly();log('singly-log','ClearList: all nodes removed','warn');}
-// ========== STACK ==========
-function rStack(){const c=document.getElementById('st-nodes');c.innerHTML='';if(!ST.length){c.innerHTML='<span class="stempty">（空堆疊）</span>';return;}ST.forEach((v,i)=>{const top=i===0;const n=document.createElement('div');n.className='stnode pop'+(top?' top':'');n.innerHTML=`<div class="snd">${v}</div><div class="snp">${top?'top':'→'}</div>`;c.appendChild(n);if(!top){const a=document.createElement('div');a.style.cssText='font-size:12px;color:var(--faint);text-align:center';a.textContent='↓';c.appendChild(a);}});const b=document.createElement('div');b.className='stbot';b.textContent='── NULL (bottom) ──';c.appendChild(b);}
-function stPush(){const v=+document.getElementById('st-v').value;if(isNaN(v))return;ST.unshift(v);rStack();log('st-log',`Push(${v}) → top: ${ST[0]}`,'ok');}
-function stPop(){if(!ST.length){log('st-log','Pop: stack is empty','err');return;}const it=ST.shift();rStack();log('st-log',`Pop → removed: ${it}, new top: ${ST[0]??'NULL'}`,'warn');}
-function stPeek(){if(!ST.length){log('st-log','Peek: stack is empty','err');return;}log('st-log',`Peek → top: ${ST[0]}`,'info');}
-function stPrint(){if(!ST.length){log('st-log','PrintStack → (empty)','info');return;}log('st-log',`PrintStack → top: ${ST.join(' → ')} → NULL`,'info');}
-// ========== DOUBLY ==========
+function rSingly(hl=-1,nv=null){
+  const viz=document.getElementById('singly-viz'); viz.innerHTML='';
+  // header
+  const hw=document.createElement('div'); hw.className='vn pop';
+  const hb=document.createElement('div'); hb.className='vb hdr';
+  const hd=document.createElement('div'); hd.className='vd'; hd.textContent='H';
+  const hp=document.createElement('div'); hp.className='vp'; hp.textContent='→';
+  hb.appendChild(hd); hb.appendChild(hp); hw.appendChild(hb);
+  const hl2=document.createElement('div'); hl2.className='vlbl'; hl2.textContent='header'; hw.appendChild(hl2);
+  viz.appendChild(hw);
+  if(!SL.length){const a=document.createElement('span');a.className='arr circ';a.textContent='↩';viz.appendChild(a);return;}
+  let mk=false;
+  SL.forEach((v,i)=>{
+    const a=document.createElement('span'); a.className='arr'; a.textContent='→'; viz.appendChild(a);
+    let cls='';
+    if(v===nv&&!mk){cls='nw';mk=true;} if(v===hl)cls='tgt';
+    const isL=i===SL.length-1;
+    const w=document.createElement('div'); w.className='vn pop';
+    const b=document.createElement('div'); b.className='vb'+(cls?' '+cls:'');
+    const dd=document.createElement('div'); dd.className='vd'; dd.textContent=v;
+    const pp=document.createElement('div'); pp.className='vp'; pp.textContent=isL?'↩':'→';
+    b.appendChild(dd); b.appendChild(pp); w.appendChild(b);
+    if(isL){const l=document.createElement('div');l.className='vlbl last';l.textContent='last';w.appendChild(l);}
+    viz.appendChild(w);
+  });
+}
+function sInsFirst(){const v=+document.getElementById('s-iv').value;if(isNaN(v))return;saveS();SL.unshift(v);rSingly(-1,v);log('singly-log',`Insert at front (${v}) → ${sStr(SL)}`,'ok');}
+function sInsLast(){const v=+document.getElementById('s-iv').value;if(isNaN(v))return;saveS();SL.push(v);rSingly(-1,v);log('singly-log',`Insert at back (${v}) → ${sStr(SL)}`,'ok');}
+function sInsAfter(){
+  const t=+document.getElementById('s-tv').value,v=+document.getElementById('s-fv').value;
+  if(isNaN(t)||isNaN(v))return;
+  const i=SL.indexOf(t);
+  if(i<0){log('singly-log',`Search for ${t}: not found`,'err');return;}
+  log('singly-log',`Search for ${t}: found`,'info');
+  saveS(); SL.splice(i+1,0,v); rSingly(t,v);
+  log('singly-log',`Insert after ${t} → ${sStr(SL)}`,'ok');
+}
+function sInsBefore(){
+  const t=+document.getElementById('s-tv').value,v=+document.getElementById('s-fv').value;
+  if(isNaN(t)||isNaN(v))return;
+  const i=SL.indexOf(t);
+  if(i<0){log('singly-log',`Search for ${t}: not found`,'err');return;}
+  log('singly-log',`Search for ${t}: found`,'info');
+  saveS(); SL.splice(i,0,v); rSingly(t,v);
+  log('singly-log',`Insert before ${t} → ${sStr(SL)}`,'ok');
+}
+function sDel(){
+  const t=+document.getElementById('s-dv').value; if(isNaN(t))return;
+  const i=SL.indexOf(t);
+  if(i<0){log('singly-log',`Delete node ${t}: not found`,'err');return;}
+  saveS(); SL.splice(i,1); rSingly();
+  log('singly-log',`Delete node ${t}: removed → ${sStr(SL)}`,'warn');
+}
+function sFind(){
+  const t=+document.getElementById('s-sv').value; if(isNaN(t))return;
+  const i=SL.indexOf(t);
+  if(i<0){rSingly();log('singly-log',`Search for ${t}: not found`,'err');}
+  else{rSingly(t);log('singly-log',`Search for ${t}: found at position ${i+1}`,'ok');}
+}
+function sRand(){
+  const n=+document.getElementById('s-rn').value,lo=+document.getElementById('s-rl').value,hi=+document.getElementById('s-rh').value;
+  if(isNaN(n)||isNaN(lo)||isNaN(hi)||lo>hi){log('singly-log','Random fill: invalid range','err');return;}
+  saveS(); const ins=[];
+  for(let i=0;i<n;i++){const v=Math.floor(Math.random()*(hi-lo+1))+lo;SL.push(v);ins.push(v);}
+  rSingly();
+  log('singly-log',`Insert random nodes (count=${n}, range ${lo}–${hi}): [${ins.join(', ')}]`,'info');
+  log('singly-log',sStr(SL),'ok');
+}
+function sPrint(){rSingly();log('singly-log',`Print list → ${sStr(SL)}`,'info');}
+function sInvert(){
+  if(!SL.length){log('singly-log','Reverse list: list is empty','warn');return;}
+  saveS(); SL.reverse(); rSingly();
+  log('singly-log',`Reverse list → ${sStr(SL)}`,'ok');
+}
+function sClear(){
+  if(!SL.length){log('singly-log','Clear: list already empty','warn');return;}
+  saveS(); SL=[]; rSingly();
+  log('singly-log','Clear all nodes: list is now empty','warn');
+}
+
+// ══════════════ STACK ════════════════════════════════════════════
+function rStack(){
+  const c=document.getElementById('st-nodes'); c.innerHTML='';
+  if(!ST.length){c.innerHTML='<span class="stempty">(empty stack)</span>';return;}
+  ST.forEach((v,i)=>{
+    const top=i===0;
+    const n=document.createElement('div'); n.className='stnode pop'+(top?' top':'');
+    n.innerHTML=`<div class="snd">${v}</div><div class="snp">${top?'top':'→'}</div>`;
+    c.appendChild(n);
+    if(!top){const a=document.createElement('div');a.style.cssText='font-size:12px;color:var(--faint);text-align:center';a.textContent='↓';c.appendChild(a);}
+  });
+  const b=document.createElement('div'); b.className='stbot'; b.textContent='── NULL (bottom) ──'; c.appendChild(b);
+}
+function stPush(){const v=+document.getElementById('st-v').value;if(isNaN(v))return;saveST();ST.unshift(v);rStack();log('st-log',`Push ${v} onto stack → top: ${ST[0]}`,'ok');}
+function stPop(){
+  if(!ST.length){log('st-log','Pop: stack is empty','err');return;}
+  saveST(); const it=ST.shift(); rStack();
+  log('st-log',`Pop from stack: removed ${it}, new top: ${ST[0]??'NULL'}`,'warn');
+}
+function stPeek(){
+  if(!ST.length){log('st-log','Peek: stack is empty','err');return;}
+  log('st-log',`Peek at top → ${ST[0]}`,'info');
+}
+function stPrint(){
+  if(!ST.length){log('st-log','Print stack → (empty)','info');return;}
+  log('st-log',`Print stack → top: ${ST.join(' → ')} → NULL`,'info');
+}
+
+// ══════════════ DOUBLY ═══════════════════════════════════════════
 function dStr(a){return a.length?'head ⇔ '+a.join(' ⇔ ')+' ⇔ head':'(empty)';}
-function mkDN(data,cls=''){const w=document.createElement('div');w.className='dnode pop';const b=document.createElement('div');b.className='db'+(cls?' '+cls:'');const pv=document.createElement('div');pv.className='dpv';pv.textContent='←';const d=document.createElement('div');d.className='dd';d.textContent=data;const nx=document.createElement('div');nx.className='dnx';nx.textContent='→';b.appendChild(pv);b.appendChild(d);b.appendChild(nx);w.appendChild(b);return w;}
-function rDList(hl=-1,nv=null){const viz=document.getElementById('dl-viz');viz.innerHTML='';if(!DL.length){const e=document.createElement('span');e.className='empty';e.textContent='（空雙向串列）';viz.appendChild(e);return;}const row=document.createElement('div');row.className='drow';const lbl=document.createElement('span');lbl.className='ddlbl';lbl.textContent='正向:';row.appendChild(lbl);row.appendChild(mkDN('head','hdr'));let mk=false;DL.forEach(v=>{const a=document.createElement('span');a.className='darr';a.textContent='⇔';row.appendChild(a);let cls='';if(v===nv&&!mk){cls='nw';mk=true;}if(v===hl)cls='tgt';row.appendChild(mkDN(v,cls));});const ea=document.createElement('span');ea.className='darr';ea.textContent='⇔';row.appendChild(ea);row.appendChild(mkDN('head','hdr'));viz.appendChild(row);}
-function dInsFirst(){const v=+document.getElementById('d-iv').value;if(isNaN(v))return;DL.unshift(v);rDList(-1,v);log('dl-log',`DInsertFirst(${v}) → ${dStr(DL)}`,'ok');}
-function dInsLast(){const v=+document.getElementById('d-iv').value;if(isNaN(v))return;DL.push(v);rDList(-1,v);log('dl-log',`DInsertLast(${v}) → ${dStr(DL)}`,'ok');}
-function dInsAfter(){const t=+document.getElementById('d-tv').value,v=+document.getElementById('d-av').value;if(isNaN(t)||isNaN(v))return;const i=DL.indexOf(t);if(i<0){log('dl-log',`DSearch(${t}): not found`,'err');return;}log('dl-log',`DSearch(${t}): found`,'info');DL.splice(i+1,0,v);rDList(t,v);log('dl-log',`DInsertAfter ${t} → ${dStr(DL)}`,'ok');}
-function dSearch(){const t=+document.getElementById('d-dv').value;if(isNaN(t))return;const i=DL.indexOf(t);if(i<0){rDList();log('dl-log',`DSearch(${t}): not found`,'err');}else{rDList(t);log('dl-log',`DSearch(${t}): found`,'ok');}}
-function dDel(){const t=+document.getElementById('d-dv').value;if(isNaN(t))return;const i=DL.indexOf(t);if(i<0){log('dl-log',`DDelete(${t}): not found`,'err');return;}DL.splice(i,1);rDList();log('dl-log',`DDelete(${t}): removed → ${dStr(DL)}`,'warn');}
-function dInvert(){if(!DL.length){log('dl-log','InvertDList: list is empty','warn');return;}DL.reverse();rDList();log('dl-log',`InvertDList → ${dStr(DL)}`,'ok');}
-function dClear(){DL=[];rDList();log('dl-log','DClearList: all nodes removed','warn');}
-// ========== QUEUE ==========
+function mkDN(data,cls=''){
+  const w=document.createElement('div'); w.className='dnode pop';
+  const b=document.createElement('div'); b.className='db'+(cls?' '+cls:'');
+  const pv=document.createElement('div'); pv.className='dpv'; pv.textContent='←';
+  const d=document.createElement('div');  d.className='dd';  d.textContent=data;
+  const nx=document.createElement('div'); nx.className='dnx'; nx.textContent='→';
+  b.appendChild(pv); b.appendChild(d); b.appendChild(nx); w.appendChild(b); return w;
+}
+function rDList(hl=-1,nv=null){
+  const viz=document.getElementById('dl-viz'); viz.innerHTML='';
+  if(!DL.length){const e=document.createElement('span');e.className='empty';e.textContent='(empty doubly linked list)';viz.appendChild(e);return;}
+  const row=document.createElement('div'); row.className='drow';
+  const lbl=document.createElement('span'); lbl.className='ddlbl'; lbl.textContent='Forward:'; row.appendChild(lbl);
+  row.appendChild(mkDN('head','hdr'));
+  let mk=false;
+  DL.forEach(v=>{
+    const a=document.createElement('span'); a.className='darr'; a.textContent='⇔'; row.appendChild(a);
+    let cls=''; if(v===nv&&!mk){cls='nw';mk=true;} if(v===hl)cls='tgt';
+    row.appendChild(mkDN(v,cls));
+  });
+  const ea=document.createElement('span'); ea.className='darr'; ea.textContent='⇔'; row.appendChild(ea);
+  row.appendChild(mkDN('head','hdr')); viz.appendChild(row);
+}
+function dInsFirst(){const v=+document.getElementById('d-iv').value;if(isNaN(v))return;saveD();DL.unshift(v);rDList(-1,v);log('dl-log',`Insert at front (${v}) → ${dStr(DL)}`,'ok');}
+function dInsLast(){const v=+document.getElementById('d-iv').value;if(isNaN(v))return;saveD();DL.push(v);rDList(-1,v);log('dl-log',`Insert at back (${v}) → ${dStr(DL)}`,'ok');}
+function dInsAfter(){
+  const t=+document.getElementById('d-tv').value,v=+document.getElementById('d-av').value;
+  if(isNaN(t)||isNaN(v))return;
+  const i=DL.indexOf(t);
+  if(i<0){log('dl-log',`Search for ${t}: not found`,'err');return;}
+  log('dl-log',`Search for ${t}: found`,'info');
+  saveD(); DL.splice(i+1,0,v); rDList(t,v);
+  log('dl-log',`Insert after ${t} → ${dStr(DL)}`,'ok');
+}
+function dSearch(){
+  const t=+document.getElementById('d-dv').value; if(isNaN(t))return;
+  const i=DL.indexOf(t);
+  if(i<0){rDList();log('dl-log',`Search for ${t}: not found`,'err');}
+  else{rDList(t);log('dl-log',`Search for ${t}: found at position ${i+1}`,'ok');}
+}
+function dDel(){
+  const t=+document.getElementById('d-dv').value; if(isNaN(t))return;
+  const i=DL.indexOf(t);
+  if(i<0){log('dl-log',`Delete node ${t}: not found`,'err');return;}
+  saveD(); DL.splice(i,1); rDList();
+  log('dl-log',`Delete node ${t}: removed → ${dStr(DL)}`,'warn');
+}
+function dInvert(){
+  if(!DL.length){log('dl-log','Reverse list: list is empty','warn');return;}
+  saveD(); DL.reverse(); rDList();
+  log('dl-log',`Reverse list → ${dStr(DL)}`,'ok');
+}
+function dClear(){
+  if(!DL.length){log('dl-log','Clear: list already empty','warn');return;}
+  saveD(); DL=[]; rDList();
+  log('dl-log','Clear all nodes: list is now empty','warn');
+}
+
+// ══════════════ QUEUE ════════════════════════════════════════════
 function qStr(a){return a.length?'qhead → [H] → '+a.join(' → ')+' → NULL':'qhead → [H] → NULL';}
-function rQueue(nv=null,deq=false){const viz=document.getElementById('q-viz');viz.innerHTML='';const hw=document.createElement('div');hw.className='qnode pop';const hb=document.createElement('div');hb.className='qb hdr';const hd=document.createElement('div');hd.className='qd';hd.textContent='H';const hp=document.createElement('div');hp.className='qp';hp.textContent='→';hb.appendChild(hd);hb.appendChild(hp);hw.appendChild(hb);const hl=document.createElement('div');hl.className='qlbl hdr';hl.textContent='qhead';hw.appendChild(hl);viz.appendChild(hw);if(!Q.length){const a=document.createElement('span');a.className='qarr';a.textContent='→';viz.appendChild(a);const nll=document.createElement('span');nll.style.cssText='font-family:var(--mono);font-size:var(--xs);color:var(--faint);margin-top:22px;padding:0 4px';nll.textContent='NULL';viz.appendChild(nll);return;}let mk=false;Q.forEach((v,i)=>{const a=document.createElement('span');a.className='qarr';a.textContent='→';viz.appendChild(a);const isFront=i===0,isRear=i===Q.length-1;const w=document.createElement('div');w.className='qnode pop';const b=document.createElement('div');let cls='';if(v===nv&&!mk){cls='nw';mk=true;}else if(isRear)cls='rear';else if(isFront)cls='front';b.className='qb'+(cls?' '+cls:'');const dd=document.createElement('div');dd.className='qd';dd.textContent=v;const pp=document.createElement('div');pp.className='qp';pp.textContent=isRear?'NULL':'→';b.appendChild(dd);b.appendChild(pp);w.appendChild(b);const lbl=document.createElement('div');lbl.className='qlbl'+(isFront?' front':isRear?' rear':'');lbl.textContent=isFront&&isRear?'front / rear':isFront?'front':isRear?'qrear':'';w.appendChild(lbl);viz.appendChild(w);});}
-function qEnq(){const v=+document.getElementById('q-v').value;if(isNaN(v))return;Q.push(v);rQueue(v);log('q-log',`InsertQ(${v}) — enqueued at rear → ${qStr(Q)}`,'ok');}
-function qDeq(){if(!Q.length){log('q-log','DeleteQ: queue is empty','err');return;}const it=Q.shift();rQueue();log('q-log',`DeleteQ → dequeued from front: ${it} → ${qStr(Q)}`,'warn');}
-function qPrint(){rQueue();log('q-log',`PrintQueue → ${qStr(Q)}`,'info');}
-function qRand(){const n=+document.getElementById('q-rn').value,lo=+document.getElementById('q-rl').value,hi=+document.getElementById('q-rh').value;if(isNaN(n)||isNaN(lo)||isNaN(hi)||lo>hi){log('q-log','Random enqueue: invalid range','err');return;}const ins=[];for(let i=0;i<n;i++){const v=Math.floor(Math.random()*(hi-lo+1))+lo;Q.push(v);ins.push(v);}rQueue();log('q-log',`Random enqueue(${n}, ${lo}~${hi}): [${ins.join(', ')}]`,'info');log('q-log',qStr(Q),'ok');}
-// init
-rSingly();log('singly-log','Initialized — header node ready, circular list starts empty','info');
-rStack();log('st-log','Initialized — linked stack ready, top = NULL','info');
-rDList();log('dl-log','Initialized — doubly linked list ready, dhead set up','info');
-rQueue();log('q-log','Initialized — linked queue ready, qhead = empty header, qrear = qhead','info');
+function rQueue(nv=null){
+  const viz=document.getElementById('q-viz'); viz.innerHTML='';
+  const hw=document.createElement('div'); hw.className='qnode pop';
+  const hb=document.createElement('div'); hb.className='qb hdr';
+  const hd=document.createElement('div'); hd.className='qd'; hd.textContent='H';
+  const hp=document.createElement('div'); hp.className='qp'; hp.textContent='→';
+  hb.appendChild(hd); hb.appendChild(hp); hw.appendChild(hb);
+  const hl=document.createElement('div'); hl.className='qlbl hdr'; hl.textContent='qhead'; hw.appendChild(hl);
+  viz.appendChild(hw);
+  if(!Q.length){
+    const a=document.createElement('span'); a.className='qarr'; a.textContent='→'; viz.appendChild(a);
+    const nll=document.createElement('span'); nll.style.cssText='font-family:var(--mono);font-size:var(--xs);color:var(--faint);margin-top:22px;padding:0 4px'; nll.textContent='NULL'; viz.appendChild(nll);
+    return;
+  }
+  let mk=false;
+  Q.forEach((v,i)=>{
+    const a=document.createElement('span'); a.className='qarr'; a.textContent='→'; viz.appendChild(a);
+    const isFront=i===0, isRear=i===Q.length-1;
+    const w=document.createElement('div'); w.className='qnode pop';
+    const b=document.createElement('div');
+    let cls=''; if(v===nv&&!mk){cls='nw';mk=true;} else if(isRear)cls='rear'; else if(isFront)cls='front';
+    b.className='qb'+(cls?' '+cls:'');
+    const dd=document.createElement('div'); dd.className='qd'; dd.textContent=v;
+    const pp=document.createElement('div'); pp.className='qp'; pp.textContent=isRear?'NULL':'→';
+    b.appendChild(dd); b.appendChild(pp); w.appendChild(b);
+    const lbl=document.createElement('div');
+    lbl.className='qlbl'+(isFront?' front':isRear?' rear':'');
+    lbl.textContent=isFront&&isRear?'front / rear':isFront?'front':isRear?'rear':'';
+    w.appendChild(lbl); viz.appendChild(w);
+  });
+}
+function qEnq(){const v=+document.getElementById('q-v').value;if(isNaN(v))return;saveQ();Q.push(v);rQueue(v);log('q-log',`Enqueue ${v} at rear → ${qStr(Q)}`,'ok');}
+function qDeq(){
+  if(!Q.length){log('q-log','Dequeue: queue is empty','err');return;}
+  saveQ(); const it=Q.shift(); rQueue();
+  log('q-log',`Dequeue from front: removed ${it} → ${qStr(Q)}`,'warn');
+}
+function qPrint(){rQueue();log('q-log',`Print queue → ${qStr(Q)}`,'info');}
+function qRand(){
+  const n=+document.getElementById('q-rn').value,lo=+document.getElementById('q-rl').value,hi=+document.getElementById('q-rh').value;
+  if(isNaN(n)||isNaN(lo)||isNaN(hi)||lo>hi){log('q-log','Random fill: invalid range','err');return;}
+  saveQ(); const ins=[];
+  for(let i=0;i<n;i++){const v=Math.floor(Math.random()*(hi-lo+1))+lo;Q.push(v);ins.push(v);}
+  rQueue();
+  log('q-log',`Enqueue random nodes (count=${n}, range ${lo}–${hi}): [${ins.join(', ')}]`,'info');
+  log('q-log',qStr(Q),'ok');
+}
+
+// ── init ─────────────────────────────────────────────────────────
+rSingly(); log('singly-log','Initialized — header node ready, circular list starts empty','info');
+rStack();  log('st-log','Initialized — linked stack ready, top = NULL','info');
+rDList();  log('dl-log','Initialized — doubly linked list ready, dhead set up','info');
+rQueue();  log('q-log','Initialized — linked queue ready, qhead = empty header, rear = qhead','info');
 </script>
 </body>
 </html>
